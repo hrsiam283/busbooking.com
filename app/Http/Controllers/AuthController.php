@@ -59,13 +59,13 @@ class AuthController extends Controller
 
 
         Session::flash('msg', 'Error Successfully!');
-        // return redirect()->route('log_in')->with('error', 'Invalid email or password.');
+        return redirect()->route('log_in');
     }
     function log_out()
     {
         Session::flush();
         Auth::logout();
-        return redirect('showdata');
+        return redirect('/')->with('msg', 'Logged Out Successfully');
     }
     public function edit_profile()
     {

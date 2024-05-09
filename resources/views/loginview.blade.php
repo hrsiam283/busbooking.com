@@ -49,6 +49,9 @@
                 <i class="bx bx-menu" onclick="myMenuFunction()"></i>
             </div>
         </nav>
+        @if (Session::has('msg'))
+            <p class="alert alert-success">{{ Session::get('msg') }}</p>
+        @endif
 
         <!----------------------------- Form box ----------------------------------->
         <div class="form-box">

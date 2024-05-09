@@ -16,6 +16,11 @@
         <h2>Add Bus Information</h2>
         <form action="{{ url('storedata') }}" method="POST">
             @csrf
+            <label for="depart-date">Date: </label>
+            <input type="date" id="depart-date" name="date" required>
+            <label for="bus_name">Bus Name:</label><br>
+            <input type="text" id="bus_name" name="bus_name"><br><br>
+
             <label for="departing_time">Departing Time:</label><br>
             <input type="time" id="departing_time" name="departing_time"><br><br>
 
@@ -29,10 +34,16 @@
             <input type="text" id="ending_point" name="ending_point" list="cityList"><br><br>
 
             <label for="fare">Fare:</label><br>
-            <input type="text" id="fare" name="fare"><br><br>
+            <input type="number" id="fare" name="fare" step="0.01" min="0" max="9999999.99"
+                title="Please enter a valid fare amount" required><br><br>
+
 
             <label for="coach_type">Coach Type:</label><br>
-            <input type="text" id="coach_type" name="coach_type"><br><br>
+            <select id="coach_type" name="coach_type">
+                <option value="AC">AC</option>
+                <option value="Non-AC">Non-AC</option>
+            </select><br><br>
+
 
             <label for="seats_available">Seats Available:</label><br>
             <input type="text" id="seats_available" name="seats_available"><br><br>

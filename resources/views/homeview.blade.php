@@ -8,6 +8,7 @@
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/homeview.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Ludiflex | Login & Registration</title>
     <style>
         body {
@@ -110,6 +111,9 @@
                 </ul>
             </div>
         </nav>
+        @if (Session::has('msg'))
+            <p class="alert alert-success">{{ Session::get('msg') }}</p>
+        @endif
         <form action="search.php" method="GET">
             <label for="origin">Origin:</label>
             <input type="text" id="origin" name="origin" list="cityList" placeholder="Choose a destinaiton"

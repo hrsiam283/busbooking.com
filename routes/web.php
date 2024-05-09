@@ -12,7 +12,7 @@ Route::get("/", function () {
     return view("homeview");
 })->name("home");
 Route::get("/extra", function () {
-    return view("seatview");
+    return view("createdata");
 })->name("extra");
 Route::get("/about", function () {
     return view("aboutview");
@@ -49,5 +49,6 @@ Route::post('update_password', [AuthController::class, 'update_password'])->name
 Route::get('/search_bus', [SearchController::class, 'search_bus'])->name('search_bus');
 Route::get('seat_management', [SearchController::class, 'seat_management'])->name('seat_management');
 Route::get('/seat_view/{coach_no}', [SearchController::class, 'seat_view'])->name('seat_view');
+Route::get('/temporary', [BusController::class, 'temporary'])->name('temporary');
 // Route::get('/showbustable', [YourControllerName::class, 'show_bus'])->name('show_bus');
 // Route::post('/showbustable', [SearchController::class, 'search_bus'])->name('search_bus');

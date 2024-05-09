@@ -38,26 +38,27 @@ class BusController extends Controller
     {
 
         $validatedData = $request->validate([
+            'date' => 'required',
+            'bus_name' => 'required',
             'departing_time' => 'required',
             'coach_no' => 'required',
             'starting_point' => 'required',
             'ending_point' => 'required',
             'fare' => 'required',
             'coach_type' => 'required',
-            'seats_available' => 'required|numeric',
-            'view' => 'required',
         ]);
 
 
         $bus = new Bus();
+        $bus->date = $validatedData['date'];
+        $bus->bus_name = $validatedData['bus_name'];
         $bus->departing_time = $validatedData['departing_time'];
         $bus->coach_no = $validatedData['coach_no'];
         $bus->starting_point = $validatedData['starting_point'];
         $bus->ending_point = $validatedData['ending_point'];
         $bus->fare = $validatedData['fare'];
         $bus->coach_type = $validatedData['coach_type'];
-        $bus->seats_available = $validatedData['seats_available'];
-        $bus->view = $validatedData['view'];
+
 
 
         $bus->save();
@@ -92,6 +93,11 @@ class BusController extends Controller
         Session::flash('msg', 'Data Successfully Updated');
 
         return redirect('/showdata');
+    }
+    public function temporary()
+    {
+        $bus = Bus::where('bus_name', 'Dina')->get();
+        return view('temporary', compact('bus'));
     }
 
 }
