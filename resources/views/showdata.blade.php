@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <h1 class="text-center">Bus Lists</h1>
 
     <div class="container">
         @if (Session::has('msg'))
@@ -22,7 +23,6 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Date</th>
                     <th>Bus Name</th>
                     <th>Departing Time</th>
                     <th>Coach-No</th>
@@ -39,7 +39,6 @@
             <tr>
 
                 <td>{{ $key + 1 }}</td>
-                <td>{{ $value->date }}</td>
                 <td>{{ $value->bus_name }}</td>
                 <td>{{ $value->departing_time }}</td>
                 <td>{{ $value->coach_no }}</td>

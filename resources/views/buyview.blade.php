@@ -44,7 +44,7 @@
 
                     <li><a href="{{ url('/') }}" class="link">Home</a></li>
                     @guest
-                        <li><a href="{{ url('login') }}" class="link">Sign In/Up</a></li>
+                    <li><a href="{{ url('login') }}" class="link">Sign In/Up</a></li>
                     @endguest
                     <li><a href="{{ url('buy') }}" class="link active">Buy</a></li>
                     <li><a href="{{ url('about') }}" class="link">About</a></li>
@@ -56,14 +56,14 @@
 
         <form action="{{ url('search_bus') }}" method="GET">
             @if (Session::has('msg'))
-                <p class="alert alert-success">{{ Session::get('msg') }}</p>
+            <p class="alert alert-success">{{ Session::get('msg') }}</p>
             @endif
             <label for="origin">Origin:</label>
-            <input type="text" id="origin" name="origin" list="cityList" placeholder="Choose a destinaiton"
+            <input type="text" id="origin" name="starting_point" list="cityList" placeholder="Choose a destinaiton"
                 required>
 
             <label for="destination">Destination:</label>
-            <input type="text" id="destination" name="destination" list="cityList" placeholder="Choose a destinaiton"
+            <input type="text" id="destination" name="ending_point" list="cityList" placeholder="Choose a destinaiton"
                 required>
 
             <datalist id="cityList">
@@ -78,7 +78,7 @@
             </datalist>
 
             <label for="depart-date">Departure Date:</label>
-            <input type="date" id="depart-date" name="depart-date" required>
+            <input type="date" id="depart-date" name="date" required>
 
             <label for="return-date">Return Date:</label>
             <input type="date" id="return-date" name="return-date">

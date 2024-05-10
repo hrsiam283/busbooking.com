@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bus;
+use App\Models\buslist;
+use App\Models\bus;
 use Session;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class BusController extends Controller
     public function showdata()
     {
         // $showdata = bus::all();
-        $showdata = bus::paginate(5);
+        $showdata = buslist::paginate(5);
         return view("showdata", compact("showdata"));
     }
     public function createdata(Request $request)
@@ -21,15 +22,14 @@ class BusController extends Controller
     }
     public function edit($id)
     {
-        $bus = Bus::findOrFail($id);
+        $bus = buslist::findOrFail($id);
         return view('editdata', compact('bus'));
     }
-    public function destroy(Bus $bus)
+    public function destroy($id)
     {
         // Delete the bus instance
+        $bus = buslist::find($id);
         $bus->delete();
-
-        // Redirect the user with a success message
         return redirect()->route('showdata')->with('success', 'Bus deleted successfully.');
     }
 
@@ -38,7 +38,6 @@ class BusController extends Controller
     {
 
         $validatedData = $request->validate([
-            'date' => 'required',
             'bus_name' => 'required',
             'departing_time' => 'required',
             'coach_no' => 'required',
@@ -49,8 +48,8 @@ class BusController extends Controller
         ]);
 
 
-        $bus = new Bus();
-        $bus->date = $validatedData['date'];
+        $bus = new buslist();
+        // $bus->date = $validatedData['date'];
         $bus->bus_name = $validatedData['bus_name'];
         $bus->departing_time = $validatedData['departing_time'];
         $bus->coach_no = $validatedData['coach_no'];
@@ -58,9 +57,6 @@ class BusController extends Controller
         $bus->ending_point = $validatedData['ending_point'];
         $bus->fare = $validatedData['fare'];
         $bus->coach_type = $validatedData['coach_type'];
-
-
-
         $bus->save();
         Session::flash('msg', 'Data Successfully Added');
 
@@ -69,6 +65,7 @@ class BusController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
+            'bus_name' => 'required',
             'departing_time' => 'required',
             'coach_no' => 'required',
             'starting_point' => 'required',
@@ -79,7 +76,8 @@ class BusController extends Controller
             'view' => 'required',
         ]);
 
-        $bus = Bus::findOrFail($id);
+        $bus = buslist::findOrFail($id);
+        $bus->bus_name = $validatedData['bus_name'];
         $bus->departing_time = $validatedData['departing_time'];
         $bus->coach_no = $validatedData['coach_no'];
         $bus->starting_point = $validatedData['starting_point'];

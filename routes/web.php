@@ -24,7 +24,7 @@ Route::get("/buy", function () {
     return view("buyview");
 })->name("buy");
 
-Route::get('/showdata', [BusController::class, 'showdata']);
+// Route::get('/showdata', [BusController::class, 'showdata']);
 Route::get('/createdata', [BusController::class, 'createdata']);
 Route::post('/storedata', [BusController::class, 'storedata']);
 Route::get('/editdata/{id}', [BusController::class, 'edit']);
@@ -48,7 +48,7 @@ Route::get('change_password', [AuthController::class, 'change_password'])->name(
 Route::post('update_password', [AuthController::class, 'update_password'])->name('update_password');
 Route::get('/search_bus', [SearchController::class, 'search_bus'])->name('search_bus');
 Route::get('seat_management', [SearchController::class, 'seat_management'])->name('seat_management');
-Route::get('/seat_view/{coach_no}', [SearchController::class, 'seat_view'])->name('seat_view');
+Route::get('/seat_view/{id}', [SearchController::class, 'seat_view'])->name('seat_view');
 Route::get('/temporary', [BusController::class, 'temporary'])->name('temporary');
 // Route::get('/showbustable', [YourControllerName::class, 'show_bus'])->name('show_bus');
 // Route::post('/showbustable', [SearchController::class, 'search_bus'])->name('search_bus');

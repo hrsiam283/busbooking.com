@@ -15,6 +15,8 @@
         <form action="{{ route('bus.update', ['bus' => $bus->id]) }}" method="POST">
             @csrf
             @method('PUT')
+            <label for="bus_name">Departing Time:</label><br>
+            <input type="text" id="bus_name" name="bus_name" value="{{ $bus->bus_name }}"><br><br>
 
             <label for="departing_time">Departing Time:</label><br>
             <input type="text" id="departing_time" name="departing_time" value="{{ $bus->departing_time }}"><br><br>
@@ -35,8 +37,7 @@
             <input type="text" id="coach_type" name="coach_type" value="{{ $bus->coach_type }}"><br><br>
 
             <label for="seats_available">Seats Available:</label><br>
-            <input type="text" id="seats_available" name="seats_available"
-                value="{{ $bus->seats_available }}"><br><br>
+            <input type="text" id="seats_available" name="seats_available" value="{{ $bus->seats_available }}"><br><br>
 
             <label for="view">View:</label><br>
             <input type="view" id="view" name="view" value="{{ $bus->view }}"><br><br>
