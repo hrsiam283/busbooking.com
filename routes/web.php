@@ -5,6 +5,7 @@ use App\Http\Controllers\BusController;
 use App\Http\Controllers\CrudController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +50,7 @@ Route::post('update_password', [AuthController::class, 'update_password'])->name
 Route::get('/search_bus', [SearchController::class, 'search_bus'])->name('search_bus');
 Route::get('seat_management', [SearchController::class, 'seat_management'])->name('seat_management');
 Route::get('/seat_view/{id}', [SearchController::class, 'seat_view'])->name('seat_view');
-Route::get('/temporary', [BusController::class, 'temporary'])->name('temporary');
+Route::get('/temporary', [BusController::class, 'temporary'])->name('temporary'); //just for checking
+Route::post('/downloadTicket', [SearchController::class, 'downloadTicket'])->name('downloadTicket');
 // Route::get('/showbustable', [YourControllerName::class, 'show_bus'])->name('show_bus');
 // Route::post('/showbustable', [SearchController::class, 'search_bus'])->name('search_bus');

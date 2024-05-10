@@ -7,6 +7,7 @@ use App\Models\buslist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Session;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SearchController extends Controller
 {
@@ -57,6 +58,7 @@ class SearchController extends Controller
 
 
     }
+
     public function seat_management(Request $request)
     {
         $id = $request->input('id');
@@ -76,9 +78,11 @@ class SearchController extends Controller
                 $checkboxNames[] = $i . $j;
             }
         }
+        $ticketlist = [];
 
         for ($i = 0; $i < count($checkboxNames); $i++) {
             if ($request->input($checkboxNames[$i]) != null) {
+                $ticketlist[] = $checkboxNames[$i];
                 $newview[$i] = $request->input($checkboxNames[$i]);
             }
         }
@@ -92,6 +96,7 @@ class SearchController extends Controller
         // }
         $bus->view = $newview;
         $seats_available = 0;
+
         for ($i = 0; $i < strlen($newview); $i++) {
             if ($newview[$i] == '0') {
                 $seats_available++;
@@ -100,11 +105,19 @@ class SearchController extends Controller
         }
         $bus->seats_available = $seats_available;
         $bus->save();
-        $coach_no = $bus->coach_no;
-        return view('seat_view', compact('bus'));
+        // $test = 3;
+
+
+        return view('showdownloadinfo', compact('bus', 'ticketlist'));
     }
-
-
+    public function downloadTicket(Request $request)
+    {
+        $busId = $request->input('busId');
+        $ticketlist = json_decode($request->input('ticketlist'), true);
+        $bus = bus::find($busId);
+        $pdf = Pdf::loadView('downloadinfo', compact('bus', 'ticketlist'));
+        return $pdf->download();
+    }
 
 
     public function seat_view($id)
@@ -114,7 +127,7 @@ class SearchController extends Controller
         if ($bus) {
             return view('seat_view', compact('bus'));
         }
-        return view('check', compact('bus'));
+        return view('check', compact('id', 'ticketlist'));
     }
 
 
