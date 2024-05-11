@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Cookie;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Session;
@@ -42,18 +43,27 @@ class AuthController extends Controller
     public function log_in(Request $request)
     {
         // Validation
+        $remember = $request->input('remember', false);
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
         $credentials = $request->only('email', 'password');
 
-        // Attempt to authenticate user
         if (Auth::attempt($credentials)) {
             Session::flash('msg', 'Logged in Successfully');
+            if ($remember) {
+                $minutes = 60;
+                $expire = time() + $minutes * 60;
 
-            // Authentication passed
-            return redirect()->intended('/buy');
+                setcookie('email', $request->input('email'), $expire);
+                setcookie('password', $request->input('password'), $expire);
+            } else {
+                setcookie('email', "");
+                setcookie('password', "");
+            }
+
+            return view('buyview');
         }
 
 

@@ -66,20 +66,41 @@
                         </span>
                         <header>Login</header>
                     </div>
-                    <div class="input-box">
-                        <input type="text" class="input-field" placeholder="Username or Email" name="email" />
-                        <i class="bx bx-user"></i>
-                    </div>
-                    <div class="input-box">
-                        <input type="password" class="input-field" placeholder="Password" name="password" />
-                        <i class="bx bx-lock-alt"></i>
-                    </div>
+
+                    @if (isset($_COOKIE['email']))
+                        <div class="input-box">
+                            <input type="text" class="input-field" placeholder="Username or Email" name="email"
+                                value="{{ $_COOKIE['email'] }}" />
+                            <i class="bx bx-user"></i>
+                        </div>
+                    @else
+                        <div class="input-box">
+                            <input type="text" class="input-field" placeholder="Username or Email" name="email" />
+                            <i class="bx bx-user"></i>
+                        </div>
+                    @endif
+                    @if (isset($_COOKIE['password']))
+                        <div class="input-box">
+                            <input type="password" class="input-field" placeholder="Password" name="password"
+                                value="{{ $_COOKIE['password'] }}" />
+                            <i class="bx bx-lock-alt"></i>
+                        </div>
+                    @else
+                        <div class="input-box">
+                            <input type="password" class="input-field" placeholder="Password" name="password" />
+                            <i class="bx bx-lock-alt"></i>
+                        </div>
+                    @endif
+
+
+
+
                     <div class="input-box">
                         <input type="submit" class="submit" value="Sign In" />
                     </div>
                     <div class="two-col">
                         <div class="one">
-                            <input type="checkbox" id="login-check" />
+                            <input type="checkbox" id="login-check" name="remember" value="1" />
                             <label for="login-check"> Remember Me</label>
                         </div>
                         <div class="two">

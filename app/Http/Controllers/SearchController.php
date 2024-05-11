@@ -79,12 +79,16 @@ class SearchController extends Controller
             }
         }
         $ticketlist = [];
+        if (auth()->check())
 
-        for ($i = 0; $i < count($checkboxNames); $i++) {
-            if ($request->input($checkboxNames[$i]) != null) {
-                $ticketlist[] = $checkboxNames[$i];
-                $newview[$i] = $request->input($checkboxNames[$i]);
+            for ($i = 0; $i < count($checkboxNames); $i++) {
+                if ($request->input($checkboxNames[$i]) != null) {
+                    $ticketlist[] = $checkboxNames[$i];
+                    $newview[$i] = $request->input($checkboxNames[$i]);
+                }
             }
+        if (!count($ticketlist)) {
+            return redirect()->back()->with('error', 'Please select atleast a seat!!');
         }
 
 
