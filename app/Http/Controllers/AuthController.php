@@ -13,6 +13,8 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
+        $remember = $request->input('remember', false);
+
         // Validate the request data
         $request->validate([
             'name' => 'required',
@@ -28,6 +30,16 @@ class AuthController extends Controller
         if (!$user) {
             Session::flash('msg', 'Something is wrong');
             return redirect('buy');
+        }
+        if ($remember) {
+            $minutes = 60;
+            $expire = time() + $minutes * 60;
+
+            setcookie('email', $request->input('email'), $expire);
+            setcookie('password', $request->input('password'), $expire);
+        } else {
+            setcookie('email', "");
+            setcookie('password', "");
         }
 
         Session::flash('msg', 'Registration successful!');

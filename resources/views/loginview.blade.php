@@ -82,14 +82,17 @@
                     @if (isset($_COOKIE['password']))
                         <div class="input-box">
                             <input type="password" class="input-field" placeholder="Password" name="password"
-                                value="{{ $_COOKIE['password'] }}" />
-                            <i class="bx bx-lock-alt"></i>
+                                value="{{ $_COOKIE['password'] }}" id="passwordField" />
+                            <input type="checkbox" onclick="myFunction()">Show Password
+
                         </div>
                     @else
                         <div class="input-box">
-                            <input type="password" class="input-field" placeholder="Password" name="password" />
+                            <input type="password" class="input-field" placeholder="Password" name="password"
+                                id="passwordField">
                             <i class="bx bx-lock-alt"></i>
                         </div>
+                        <input type="checkbox" onclick="myFunction()">Show Password
                     @endif
 
 
@@ -104,7 +107,7 @@
                             <label for="login-check"> Remember Me</label>
                         </div>
                         <div class="two">
-                            <label><a href="#">Forgot password?</a></label>
+                            <label><a href={{ route('forgot_password.view') }}>Forgot password?</a></label>
                         </div>
                     </div>
                 </form>
@@ -140,16 +143,20 @@
                         <i class="bx bx-envelope"></i>
                     </div>
                     <div class="input-box">
-                        <input type="password" class="input-field" placeholder="Password" name="password" />
+                        <input type="password" class="input-field" placeholder="Password" name="password"
+                            id="registrationPasswordfield">
                         <i class="bx bx-lock-alt"></i>
+                        <input type="checkbox" onclick="myFunction2()">Show Password
                     </div>
+
+
                     <div class="input-box">
                         <input type="submit" class="submit" value="Register" />
                     </div>
                     <div class="two-col">
                         <div class="one">
-                            <input type="checkbox" id="register-check" />
-                            <label for="register-check"> Remember Me</label>
+                            <input type="checkbox" id="login-check" name="remember" value="1" />
+                            <label for="login-check"> Remember Me</label>
                         </div>
                         <div class="two">
                             <label><a href="#">Terms & conditions</a></label>
@@ -160,6 +167,25 @@
 
         </div>
     </div>
+    <script>
+        function myFunction() {
+            var xa = document.getElementById("passwordField");
+            if (xa.type === "password") {
+                xa.type = "text";
+            } else {
+                xa.type = "password";
+            }
+        }
+
+        function myFunction2() {
+            var xa = document.getElementById("registrationPasswordfield");
+            if (xa.type === "password") {
+                xa.type = "text";
+            } else {
+                xa.type = "password";
+            }
+        }
+    </script>
 
     <script>
         function myMenuFunction() {
