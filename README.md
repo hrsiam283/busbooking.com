@@ -74,3 +74,33 @@ https://www.youtube.com/watch?v=xQr5PxbZGZI
 ## connect smtp with laravel
 
 https://youtu.be/PeK_tD4T3Og
+
+## payment method
+
+https://github.com/sslcommerz/SSLCommerz-Laravel
+
+https://youtu.be/KKW6644B1Ps
+
+> verify cfs token
+> bootstrap-> app.php
+
+```php
+ ->withMiddleware(function (Middleware $middleware) {
+       $middleware->validateCsrfTokens(except: [
+           '/pay-via-ajax', '/success', '/cancel', '/fail', '/ipn'
+       ]);
+   })
+```
+
+> .env file
+
+```php
+APP_URL=http://127.0.0.1:8000
+```
+
+> redirecting session problem
+> config> session.php
+
+```php
+'same_site' => env('SESSION_SAME_SITE', null),
+```
