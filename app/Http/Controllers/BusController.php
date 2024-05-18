@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\buslist;
 use App\Models\bus;
-use Session;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
-
 class BusController extends Controller
 {
     // Function to add a new bus

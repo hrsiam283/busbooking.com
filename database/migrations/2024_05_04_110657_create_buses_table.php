@@ -12,6 +12,8 @@ return new class extends Migration {
     {
         Schema::create('buses', function (Blueprint $table) {
             $table->id();
+            $table->string('date');
+            $table->string('bus_name');
             $table->string('departing_time');
             $table->string('coach_no');
             $table->string('starting_point');

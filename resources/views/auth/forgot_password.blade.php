@@ -22,7 +22,7 @@
         @endif
 
         <!-- Forgot password form -->
-        <form method="POST" action"#">
+        <form method="POST" action="{{ route('forgot_passwordPost') }}">
             @csrf
 
             <!-- Email input field -->
@@ -33,7 +33,7 @@
 
             <!-- Submit button -->
             <div>
-                <button type="submit">Send Password Reset Link</button>
+                <button type="submit">Send Reset Link</button>
             </div>
         </form>
     </div>

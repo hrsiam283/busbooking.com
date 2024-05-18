@@ -6,6 +6,7 @@ use App\Http\Controllers\CrudController;
 use App\Http\Controllers\ForgotPasswordManager;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SslCommerzPaymentController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,8 @@ Route::get("/buy", function () {
     return view("buyview");
 })->name("buy");
 
+
+//admin pannel
 // Route::get('/showdata', [BusController::class, 'showdata']);
 Route::get('/createdata', [BusController::class, 'createdata']);
 Route::post('/storedata', [BusController::class, 'storedata']);
@@ -36,6 +39,9 @@ Route::post('/updatedata/{id}', [BusController::class, 'update']);
 Route::put('/bus/{bus}', [BusController::class, 'update'])->name('bus.update');
 Route::delete('/bus/{bus}', [BusController::class, 'destroy'])->name('bus.destroy');
 Route::get('/showdata', [BusController::class, 'showdata'])->name('showdata');
+
+
+//user pannel
 Route::post('/register', [AuthController::class, 'register'])->name("register");
 Route::post('/log_in', [AuthController::class, 'log_in'])->name('log_in');
 Route::get('/log_out', [AuthController::class, 'log_out'])->name('log_out');
@@ -54,9 +60,10 @@ Route::get('/search_bus', [SearchController::class, 'search_bus'])->name('search
 Route::get('seat_management', [SearchController::class, 'seat_management'])->name('seat_management');
 Route::get('/seat_view/{id}', [SearchController::class, 'seat_view'])->name('seat_view');
 Route::get('/temporary', [BusController::class, 'temporary'])->name('temporary'); //just for checking
-Route::post('/downloadTicket', [SearchController::class, 'downloadTicket'])->name('downloadTicket');
 // Route::get('/showbustable', [YourControllerName::class, 'show_bus'])->name('show_bus');
 // Route::post('/showbustable', [SearchController::class, 'search_bus'])->name('search_bus');
+
+//forgot password
 Route::get('/forgot_password', [ForgotPasswordManager::class, 'forgot_password'])->name('forgot_password.view');
 Route::post('/forgot_password', [ForgotPasswordManager::class, 'forgot_passwordPost'])->name('forgot_passwordPost');
 Route::get('/resetPassword/{token}', [ForgotPasswordManager::class, 'resetPassword'])->name('resetPassword');
@@ -64,3 +71,23 @@ Route::post('/resetPassword', [ForgotPasswordManager::class, 'resetPasswordPost'
 
 
 
+// payment gateway
+// SSLCOMMERZ Start
+Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
+// Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
+Route::get('/payment_details', [SearchController::class, 'payment_details'])->name('payment_details');
+Route::post('/pay', [SslCommerzPaymentController::class, 'index']);
+Route::post('/downloadTicket', [SearchController::class, 'downloadTicket'])->name('downloadTicket');
+Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
+
+Route::match(['get', 'post'], '/success', [SslCommerzPaymentController::class, 'success'])->name('payment.success');
+Route::get('/fail', [SslCommerzPaymentController::class, 'fail'])->name('payment.fail');
+Route::get('/cancel', [SslCommerzPaymentController::class, 'cancel'])->name('payment.cancel');
+Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn'])->name('payment.ipn');
+
+
+Route::get('/master2', function () {
+    return view('master2');
+});
+
+//SSLCOMMERZ END

@@ -50,7 +50,7 @@
             </div>
         </nav>
         @if (Session::has('msg'))
-            <p class="alert alert-success">{{ Session::get('msg') }}</p>
+        <p class="alert alert-success">{{ Session::get('msg') }}</p>
         @endif
 
         <!----------------------------- Form box ----------------------------------->
@@ -59,7 +59,8 @@
 
             <div class="login-container" id="login">
                 <form action="{{ url('log_in') }}" method="POST">
-                    @csrf <!-- Add this to include CSRF protection -->
+                    @csrf
+                    <!-- Add this to include CSRF protection -->
                     <div class="top">
                         <span>Don't have an account?
                             <a href="#" onclick="register()">Sign Up</a>
@@ -68,31 +69,31 @@
                     </div>
 
                     @if (isset($_COOKIE['email']))
-                        <div class="input-box">
-                            <input type="text" class="input-field" placeholder="Username or Email" name="email"
-                                value="{{ $_COOKIE['email'] }}" />
-                            <i class="bx bx-user"></i>
-                        </div>
+                    <div class="input-box">
+                        <input type="text" class="input-field" placeholder="Username or Email" name="email"
+                            value="{{ $_COOKIE['email'] }}" />
+                        <i class="bx bx-user"></i>
+                    </div>
                     @else
-                        <div class="input-box">
-                            <input type="text" class="input-field" placeholder="Username or Email" name="email" />
-                            <i class="bx bx-user"></i>
-                        </div>
+                    <div class="input-box">
+                        <input type="text" class="input-field" placeholder="Username or Email" name="email" />
+                        <i class="bx bx-user"></i>
+                    </div>
                     @endif
                     @if (isset($_COOKIE['password']))
-                        <div class="input-box">
-                            <input type="password" class="input-field" placeholder="Password" name="password"
-                                value="{{ $_COOKIE['password'] }}" id="passwordField" />
-                            <input type="checkbox" onclick="myFunction()">Show Password
-
-                        </div>
-                    @else
-                        <div class="input-box">
-                            <input type="password" class="input-field" placeholder="Password" name="password"
-                                id="passwordField">
-                            <i class="bx bx-lock-alt"></i>
-                        </div>
+                    <div class="input-box">
+                        <input type="password" class="input-field" placeholder="Password" name="password"
+                            value="{{ $_COOKIE['password'] }}" id="passwordField" />
                         <input type="checkbox" onclick="myFunction()">Show Password
+
+                    </div>
+                    @else
+                    <div class="input-box">
+                        <input type="password" class="input-field" placeholder="Password" name="password"
+                            id="passwordField">
+                        <i class="bx bx-lock-alt"></i>
+                    </div>
+                    <input type="checkbox" onclick="myFunction()">Show Password
                     @endif
 
 
@@ -120,28 +121,26 @@
                     @csrf
                     @method('POST')
 
-                    <div class="top">
+                    {{-- <div class="top">
                         <span>Have an account? <a href="#" onclick="login()">Login</a></span>
                         <header>Sign Up</header>
-                    </div>
-                    {{-- <div class="two-forms">
-                        <div class="input-box">
-                            <input type="text" class="input-field" placeholder="Enter your Name" name="name" />
-                            <i class="bx bx-user"></i>
-                        </div> --}}
-                    {{-- <div class="input-box">
-                            <input type="text" class="input-field" placeholder="Lastname" name="lastname" />
-                            <i class="bx bx-user"></i>
-                        </div> --}}
-                    {{-- </div> --}}
+                    </div> --}}
+
                     <div class="input-box">
                         <input type="text" class="input-field" placeholder="Enter your Name" name="name" />
-                        <i class="bx bx-envelope"></i>
+                        <i class="bx bx-user"></i>
                     </div>
+
                     <div class="input-box">
                         <input type="text" class="input-field" placeholder="Email" name="email" />
                         <i class="bx bx-envelope"></i>
                     </div>
+                    <div class="input-box">
+                        <input type="tel" class="input-field" placeholder="Enter your mobile number" name="mobile_no"
+                            id="mobile_no" pattern="[0-9]{11}" />
+                        <i class="bx bx-phone"></i>
+                    </div>
+
                     <div class="input-box">
                         <input type="password" class="input-field" placeholder="Password" name="password"
                             id="registrationPasswordfield">

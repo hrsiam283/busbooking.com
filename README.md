@@ -73,4 +73,4 @@ https://www.youtube.com/watch?v=xQr5PxbZGZI
 
 ## connect smtp with laravel
 
-https://youtu.be/xQr5PxbZGZI
+https://youtu.be/PeK_tD4T3Og

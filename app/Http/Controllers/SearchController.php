@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Bus;
 use App\Models\buslist;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Session;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use App\Models\Order;
 
 class SearchController extends Controller
 {
@@ -20,16 +20,16 @@ class SearchController extends Controller
         // $departureDate = $request->input('depart-date');
         // $returnDate = $request->input('return-date');
 
-
-
         $bus = bus::where('date', $date)->get();
         if ($bus != '[]') {
             $buses = bus::where('date', $date)
                 ->where('starting_point', $starting_point)
                 ->where('ending_point', $ending_point)->get();
-            if ($buses != '[]')
+            if ($buses != '[]') {
                 return view('showbustable', compact('buses'));
+            }
             Session::flash('msg', 'No Bus Found In This Route');
+
             return view('showbustable', compact('buses'));
         } else {
             $bus = buslist::all();
@@ -50,14 +50,36 @@ class SearchController extends Controller
             $buses = bus::where('date', $date)
                 ->where('starting_point', $starting_point)
                 ->where('ending_point', $ending_point)->get();
-            if ($buses != '[]')
+            if ($buses != '[]') {
                 return view('showbustable', compact('buses'));
+            }
             Session::flash('msg', 'No Bus Found In This Route');
+
             return view('showbustable', compact('buses'));
         }
-
-
     }
+    // create a function named  'payment_details'
+    public function payment_details(Request $request)
+    {
+        $bus_id = $request->input('id');
+        $bus = Bus::find($bus_id);
+        for ($i = 'A'; $i <= 'J'; $i++) {
+            for ($j = 1; $j <= 4; $j++) {
+                $checkboxNames[] = $i . $j;
+            }
+        }
+        $ticketlist = [];
+        for ($i = 0; $i < count($checkboxNames); $i++) {
+            if ($request->input($checkboxNames[$i]) != null) {
+                $ticketlist[] = $checkboxNames[$i];
+            }
+        }
+        if (!count($ticketlist)) {
+            return redirect()->back()->with('error', 'Please select at least a seat and login!!');
+        }
+        return view('exampleHosted', compact('ticketlist', 'bus'));
+    }
+
 
     public function seat_management(Request $request)
     {
@@ -79,7 +101,7 @@ class SearchController extends Controller
             }
         }
         $ticketlist = [];
-        if (auth()->check())
+        if (auth()->check()) {
 
             for ($i = 0; $i < count($checkboxNames); $i++) {
                 if ($request->input($checkboxNames[$i]) != null) {
@@ -87,11 +109,10 @@ class SearchController extends Controller
                     $newview[$i] = $request->input($checkboxNames[$i]);
                 }
             }
-        if (!count($ticketlist)) {
-            return redirect()->back()->with('error', 'Please select atleast a seat!!');
         }
-
-
+        if (!count($ticketlist)) {
+            return redirect()->back()->with('error', 'Please select at least a seat and login!!');
+        }
 
         // for ($i = 0; $i < 8; $i++) {
         //     if ($newview[$i] == '2') {
@@ -105,24 +126,23 @@ class SearchController extends Controller
             if ($newview[$i] == '0') {
                 $seats_available++;
             }
-
         }
         $bus->seats_available = $seats_available;
         $bus->save();
         // $test = 3;
 
-
         return view('showdownloadinfo', compact('bus', 'ticketlist'));
     }
+
     public function downloadTicket(Request $request)
     {
-        $busId = $request->input('busId');
-        $ticketlist = json_decode($request->input('ticketlist'), true);
-        $bus = bus::find($busId);
-        $pdf = Pdf::loadView('downloadinfo', compact('bus', 'ticketlist'));
+        $order_id = $request->input('order_id');
+        $order = Order::find($order_id);
+        $ticketlist = json_decode($order->ticketlist, true);
+        $bus = bus::find($order->bus_id);
+        $pdf = Pdf::loadView('downloadinfo', compact('bus', 'ticketlist', 'order'));
         return $pdf->download();
     }
-
 
     public function seat_view($id)
     {
@@ -131,8 +151,7 @@ class SearchController extends Controller
         if ($bus) {
             return view('seat_view', compact('bus'));
         }
+
         return view('check', compact('id', 'ticketlist'));
     }
-
-
 }

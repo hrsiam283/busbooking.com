@@ -16,8 +16,6 @@
         <h2>Add Bus Information</h2>
         <form action="{{ url('storedata') }}" method="POST">
             @csrf
-            <label for="depart-date">Date: </label>
-            <input type="date" id="depart-date" name="date" required>
             <label for="bus_name">Bus Name:</label><br>
             <input type="text" id="bus_name" name="bus_name"><br><br>
 
@@ -45,28 +43,41 @@
             </select><br><br>
 
 
-            <label for="seats_available">Seats Available:</label><br>
-            <input type="text" id="seats_available" name="seats_available"><br><br>
+            <label for="seats_available" style="display: none;">Seats Available:</label><br>
+            <input type="hidden" id="seats_available" name="seats_available" value="40">
 
-            <label for="view">View:</label><br>
-            <input type="text" id="view" name="view"><br><br>
 
-            <!-- Datalist for starting point -->
-            <datalist id="cityList">
-                <option value="Barishal">
-                <option value="Chattogram">
-                <option value="Dhaka">
-                <option value="Khulna">
-                <option value="Rajshahi">
-                <option value="Rangpur">
-                <option value="Mymensingh">
-                <option value="Sylhet">
-            </datalist>
+            <<label for="view" style="display: none;">View:</label><br>
+                <input type="hidden" id="view" name="view" value="0000000000000000000000000000000000000000">
 
-            <input type="submit" value="Submit">
+
+                <!-- Datalist for starting point -->
+                <datalist id="cityList">
+                    <option value="Barishal">
+                    <option value="Chattogram">
+                    <option value="Dhaka">
+                    <option value="Khulna">
+                    <option value="Rajshahi">
+                    <option value="Rangpur">
+                    <option value="Mymensingh">
+                    <option value="Sylhet">
+                </datalist>
+
+                <input type="submit" value="Submit">
         </form>
 
     </div>
+    <script>
+        (function (window, document) {
+            var loader = function () {
+                var script = document.createElement("script"), tag = document.getElementsByTagName("script")[0];
+                script.src = "https://sandbox.sslcommerz.com/embed.min.js?" + Math.random().toString(36).substring(7);
+                tag.parentNode.insertBefore(script, tag);
+            };
+
+            window.addEventListener ? window.addEventListener("load", loader, false) : window.attachEvent("onload", loader);
+        })(window, document);
+    </script>
 </body>
 
 </html>

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Session;
 use Auth;
+
+
 use Hash;
 
 class AuthController extends Controller
@@ -15,15 +17,16 @@ class AuthController extends Controller
     {
         $remember = $request->input('remember', false);
 
-        // Validate the request data
         $request->validate([
             'name' => 'required',
-            // 'lastname' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
+            'mobile_no' => 'required|unique:users|digits:11',
         ]);
 
+
         $data['name'] = $request->name;
+        $data['mobile_no'] = $request->mobile_no;
         $data['email'] = $request->email;
         $data['password'] = bcrypt($request->password);
         $user = User::create($data);
@@ -34,7 +37,6 @@ class AuthController extends Controller
         if ($remember) {
             $minutes = 60;
             $expire = time() + $minutes * 60;
-
             setcookie('email', $request->input('email'), $expire);
             setcookie('password', $request->input('password'), $expire);
         } else {
@@ -44,14 +46,8 @@ class AuthController extends Controller
 
         Session::flash('msg', 'Registration successful!');
         return redirect('/showdata');
-
-
-
-        // $user->name = $validatedData['name'];
-        // $user->email = $validatedData['email'];
-        // $user->password = bcrypt($validatedData['password']);
-        // $user->save();
     }
+
     public function log_in(Request $request)
     {
         // Validation
@@ -78,17 +74,17 @@ class AuthController extends Controller
             return view('buyview');
         }
 
-
-
         Session::flash('msg', 'Error Successfully!');
         return redirect()->route('log_in');
     }
+
     function log_out()
     {
         Session::flush();
         Auth::logout();
         return redirect('/')->with('msg', 'Logged Out Successfully');
     }
+
     public function edit_profile()
     {
         return view('edit_profile');
@@ -108,6 +104,7 @@ class AuthController extends Controller
 
         return redirect()->route('edit_profile')->with('success', 'Profile updated successfully.');
     }
+
     public function change_password()
     {
         return view('change_password');
@@ -122,7 +119,7 @@ class AuthController extends Controller
             'new_password.different' => 'The new password must be different from the current password.',
         ]);
 
-        $user = Auth::user();
+        $user = \Auth::user();
 
         // Decrypt the hashed password using bcrypt
         $currentPasswordDecrypted = bcrypt($request->current_password);
@@ -139,11 +136,8 @@ class AuthController extends Controller
         return redirect()->route('change_password')->with('success', 'Password changed successfully.');
     }
 
-
-
     public function view_profile()
     {
         return view('view_profile');
     }
-
 }
