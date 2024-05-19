@@ -9,6 +9,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SslCommerzPaymentController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -77,7 +78,7 @@ Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckou
 // Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
 Route::get('/payment_details', [SearchController::class, 'payment_details'])->name('payment_details');
 Route::post('/pay', [SslCommerzPaymentController::class, 'index']);
-Route::post('/downloadTicket', [SearchController::class, 'downloadTicket'])->name('downloadTicket');
+Route::get('/downloadTicket', [SearchController::class, 'downloadTicket'])->name('downloadTicket');
 Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
 
 Route::match(['get', 'post'], '/success', [SslCommerzPaymentController::class, 'success'])->name('payment.success');
@@ -87,7 +88,8 @@ Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn'])->name('payment.
 
 
 Route::get('/master2', function () {
-    return view('master2');
+    $pdf = Pdf::loadView('test');
+    return $pdf->download();
 });
 
 //SSLCOMMERZ END

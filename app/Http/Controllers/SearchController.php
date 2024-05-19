@@ -8,6 +8,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\Order;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class SearchController extends Controller
 {

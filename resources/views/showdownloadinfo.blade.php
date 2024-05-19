@@ -77,11 +77,11 @@
             </div>
             <div class="row">
                 <div class="col-md-3"> Card Issuer:</div>
-                <div class="col-md-9">{{ $order->card_issuer }}</div>
+                <div class="col-md-9">{{ $card_issuer }}</div>
             </div>
         </div>
     </div>
-    <form action="{{ route('downloadTicket') }}" method="post">
+    <form action="{{ route('downloadTicket') }}" method="get">
         @csrf
         <input type="hidden" name="order_id" value="{{ $order->id }}">
         <button type="submit" class="btn btn-primary">Download Ticket</button>
