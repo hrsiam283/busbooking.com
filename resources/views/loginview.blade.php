@@ -17,6 +17,7 @@
             height: 100%;
             overflow: hidden;
         }
+
     </style>
 </head>
 
@@ -32,7 +33,9 @@
                     <li><a href="{{ url('/') }}" class="link">Home</a></li>
                     <li><a href="{{ url('login') }}" class="link active">Sign In/Up</a></li>
                     <li><a href="{{ url('buy') }}" class="link">Buy</a></li>
-                    <li><a href="{{ url('about') }}" class="link">About</a></li>
+                    @auth
+                    <li><a href="{{ url('log_out') }}" class="link">Log Out</a></li>
+                    @endauth
                     <li><a href="{{ url('view_profile') }}" class="link">Profile</a></li>
 
                 </ul>
@@ -70,8 +73,7 @@
 
                     @if (isset($_COOKIE['email']))
                     <div class="input-box">
-                        <input type="text" class="input-field" placeholder="Username or Email" name="email"
-                            value="{{ $_COOKIE['email'] }}" />
+                        <input type="text" class="input-field" placeholder="Username or Email" name="email" value="{{ $_COOKIE['email'] }}" />
                         <i class="bx bx-user"></i>
                     </div>
                     @else
@@ -82,15 +84,13 @@
                     @endif
                     @if (isset($_COOKIE['password']))
                     <div class="input-box">
-                        <input type="password" class="input-field" placeholder="Password" name="password"
-                            value="{{ $_COOKIE['password'] }}" id="passwordField" />
+                        <input type="password" class="input-field" placeholder="Password" name="password" value="{{ $_COOKIE['password'] }}" id="passwordField" />
                         <input type="checkbox" onclick="myFunction()">Show Password
 
                     </div>
                     @else
                     <div class="input-box">
-                        <input type="password" class="input-field" placeholder="Password" name="password"
-                            id="passwordField">
+                        <input type="password" class="input-field" placeholder="Password" name="password" id="passwordField">
                         <i class="bx bx-lock-alt"></i>
                     </div>
                     <input type="checkbox" onclick="myFunction()">Show Password
@@ -136,14 +136,12 @@
                         <i class="bx bx-envelope"></i>
                     </div>
                     <div class="input-box">
-                        <input type="tel" class="input-field" placeholder="Enter your mobile number" name="mobile_no"
-                            id="mobile_no" pattern="[0-9]{11}" />
+                        <input type="tel" class="input-field" placeholder="Enter your mobile number" name="mobile_no" id="mobile_no" pattern="[0-9]{11}" />
                         <i class="bx bx-phone"></i>
                     </div>
 
                     <div class="input-box">
-                        <input type="password" class="input-field" placeholder="Password" name="password"
-                            id="registrationPasswordfield">
+                        <input type="password" class="input-field" placeholder="Password" name="password" id="registrationPasswordfield">
                         <i class="bx bx-lock-alt"></i>
                         <input type="checkbox" onclick="myFunction2()">Show Password
                     </div>
@@ -184,6 +182,7 @@
                 xa.type = "password";
             }
         }
+
     </script>
 
     <script>
@@ -196,6 +195,7 @@
                 i.className = "nav-menu";
             }
         }
+
     </script>
 
     <script>
@@ -221,6 +221,7 @@
             x.style.opacity = 0;
             y.style.opacity = 1;
         }
+
     </script>
 </body>
 

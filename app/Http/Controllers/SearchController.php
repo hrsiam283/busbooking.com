@@ -134,6 +134,17 @@ class SearchController extends Controller
 
         return view('showdownloadinfo', compact('bus', 'ticketlist'));
     }
+    public function showdownloadinfo(Request $request)
+    {
+        $bus_id = $request->input('bus_id');
+        $bus = Bus::find($bus_id);
+        $order_id = $request->input('order_id');
+        $order = Order::find($order_id);
+        // dd($order);
+        $ticketlist = json_decode($order->ticketlist, true);
+        $card_issuer = $order->card_issuer;
+        return view('showdownloadinfo', compact('bus', 'ticketlist', 'order', 'card_issuer'));
+    }
 
     public function downloadTicket(Request $request)
     {

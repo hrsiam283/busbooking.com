@@ -1,12 +1,6 @@
 @extends('mainlayout')
 {{-- a $bus variable is passed here --}}
 <style>
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
     .seatview {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -36,86 +30,127 @@
     .disabled {
         background-color: lightgray;
     }
+
 </style>
 @section('content')
-<div class="container mt-5">
+<div class="container mt-5" style="display: flex; flex-direction: column; align-items: center;">
     @php
     $view = $bus->view;
+    $prices = $bus->fare;
+    $price = (int) $prices;
+    // $price = integer value of $prices
     @endphp
 
+    {{-- <h2>{{ $view }}</h2> --}}
+    <div class="row">
+        <div class="col-5">
+            <h5>Seats Available: {{ $bus->seats_available }}</h5>
+            @if (Session::has('error'))
+            <div class="alert alert-danger"> {{ Session::get('error') }}</div>
+            @endif
+            <input type="hidden" id="sohel" name="bus_id" value={{ $price }}>
 
-    <h2>{{ $view }}</h2>
-    <h2>Seats Available: {{ $bus->seats_available }}</h2>
-    @if (Session::has('error'))
-    <div class="alert alert-danger"> {{ Session::get('error') }}</div>
-    @endif
-    <form action="{{ route('payment_details') }} " method="GET">
-        <input type="hidden" name="id" value="{{ $bus->id }}">
-        <div class="form-group row">
-            <table>
-                @php
-                $index = 0;
-                $rows = range('A', 'J');
-                $columns = range(1, 4); // Column labels
-                @endphp
+            <form action="{{ route('payment_details') }} " method="GET">
+                <input type="hidden" name="id" value="{{ $bus->id }}">
+                <div class="form-group row">
+                    <table>
+                        @php
+                        $index = 0;
+                        $rows = range('A', 'J');
+                        $columns = range(1, 4); // Column labels
+                        @endphp
 
-                @foreach ($rows as $row)
-                <tr>
-                    @foreach ($columns as $column)
-                    @php
-                    $name = $row . $column; // Generate name attribute
-                    @endphp
-                    <td>
-                        {{-- <input type="checkbox" id="{{ $index }}" name="{{ $name }}" value="1"
-                            class="form-check-input">
-                        <label for="{{ $name }}" class="form-check-label">{{ $name }}</label> --}}
-                        @if ($view[$index] == '1')
-                        <div class="seat unavailable">
-                            <input type="checkbox" id="{{ $index }}" name="{{ $name }}" value="1" disabled>
-                            <label for="{{ $name }}">{{ $name }}</label>
-                        </div>
-                        @else
-                        <div class="seat available">
-                            <input type="checkbox" id="{{ $index }}" name="{{ $name }}" value="1">
-                            <label for="{{ $name }}">{{ $name }}</label>
-                        </div>
-                        @endif
-                    </td>
-                    @php
-                    $index = $index + 1;
-                    @endphp
-                    @endforeach
+                        @foreach ($rows as $row)
+                        <tr>
+                            @foreach ($columns as $column)
+                            @php
+                            $name = $row . $column;
+                            @endphp
+                            <td>
+                                {{-- <input type="checkbox" id="{{ $index }}" name="{{ $name }}" value="1"
+                                class="form-check-input">
+                                <label for="{{ $name }}" class="form-check-label">{{ $name }}</label> --}}
+                                @if ($view[$index] == '1')
+                                <div class="seat unavailable">
+                                    <input type="checkbox" id="{{ $index }}" name="{{ $name }}" value="1" disabled>
+                                    <label for="{{ $name }}">{{ $name }}</label>
+                                </div>
+                                @else
+                                <div class="seat available">
+                                    <input type="checkbox" id="{{ $index }}" name="{{ $name }}" value="1">
+                                    <label for="{{ $name }}">{{ $name }}</label>
+                                </div>
+                                @endif
+                            </td>
+                            @php
+                            $index = $index + 1;
+                            @endphp
+                            @endforeach
 
-                </tr>
-                @endforeach
-            </table>
+                        </tr>
+                        @endforeach
+                    </table>
+                </div>
+
+
+
+
+                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            </form>
         </div>
-
-
-
-
-        <button type="submit" class="btn btn-primary mt-3">Submit</button>
-    </form>
+        <div class="col mt-5 bg-success ms-4" style="height: 400px">
+            <h4>Selected Tickets:</h4>
+            <div id="selected-tickets"></div>
+            <h4>Total Price:</h4>
+            <div id="total-price">$0</div>
+        </div>
+    </div>
 </div>
-{{-- @for ($i = 0; $i < strlen($view); $i++) @if ($view[$i]=='1' ) <script>
-    var checkbox = document.getElementById('{{ $i }}');
-    checkbox.disabled = true;
-    </script>
-    @endif
-    @endfor --}}
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkboxes = document.querySelectorAll('.seat.available input[type="checkbox"]');
+        const selectedTicketsDiv = document.getElementById('selected-tickets');
+        const totalPriceDiv = document.getElementById('total-price');
+        let selectedTickets = [];
+        let totalPrice = 0;
 
-            checkboxes.forEach(function(checkbox) {
-                checkbox.addEventListener('change', function() {
-                    if (this.checked) {
-                        this.value = "1"; // Set value to "1" if checked
-                    } else {
-                        this.value = "2"; // Set value to "2" if unchecked
-                    }
-                });
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const seatName = checkbox.name;
+                // let price = {
+                //     !!$price!!
+                // };
+                // const price = "<?php echo $price; ?>";
+                // var price = {
+                //     !!json_encode($price) !!
+                // };
+                let price = document.getElementById('sohel').value;
+
+
+
+                price = parseInt(price);
+                // let price = 160;
+                // console.log(price);
+
+                if (checkbox.checked) {
+                    selectedTickets.push(seatName);
+                    totalPrice += price;
+                } else {
+                    selectedTickets = selectedTickets.filter(ticket => ticket !== seatName);
+                    totalPrice -= price;
+                }
+
+                updateDisplay();
             });
         });
-    </script> --}}
-    @endsection
+
+        function updateDisplay() {
+            selectedTicketsDiv.innerHTML = selectedTickets.length > 0 ? selectedTickets.join(', ') : 'None';
+            totalPriceDiv.innerHTML = `BDT ${totalPrice.toFixed(2)}`;
+        }
+
+        updateDisplay();
+    });
+
+</script>
+@endsection

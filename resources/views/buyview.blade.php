@@ -6,8 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/homeview.css') }}">
     <title>Ludiflex | Login & Registration</title>
@@ -29,6 +28,7 @@
         .link.active {
             text-decoration: underline;
         }
+
     </style>
 </head>
 
@@ -47,7 +47,9 @@
                     <li><a href="{{ url('login') }}" class="link">Sign In/Up</a></li>
                     @endguest
                     <li><a href="{{ url('buy') }}" class="link active">Buy</a></li>
-                    <li><a href="{{ url('about') }}" class="link">About</a></li>
+                    @auth
+                    <li><a href="{{ url('log_out') }}" class="link">Log Out</a></li>
+                    @endauth
                     <li><a href="{{ url('view_profile') }}" class="link">Profile</a></li>
 
                 </ul>
@@ -59,12 +61,10 @@
             <p class="alert alert-success">{{ Session::get('msg') }}</p>
             @endif
             <label for="origin">Origin:</label>
-            <input type="text" id="origin" name="starting_point" list="cityList" placeholder="Choose a destinaiton"
-                required>
+            <input type="text" id="origin" name="starting_point" list="cityList" placeholder="Choose a destinaiton" required>
 
             <label for="destination">Destination:</label>
-            <input type="text" id="destination" name="ending_point" list="cityList" placeholder="Choose a destinaiton"
-                required>
+            <input type="text" id="destination" name="ending_point" list="cityList" placeholder="Choose a destinaiton" required>
 
             <datalist id="cityList">
                 <option value="Barishal">
@@ -97,6 +97,7 @@
                 i.className = "nav-menu";
             }
         }
+
     </script>
     <script src="{{ asset('js/homeview.js') }}"></script>
 </body>

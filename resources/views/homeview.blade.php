@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/homeview.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Ludiflex | Login & Registration</title>
+    <title>Home</title>
     <style>
         body {
             background: url("{{ asset('images/1.jpg') }}") no-repeat center center fixed;
@@ -79,69 +79,75 @@
             <div class="nav-logo">
                 <p>busbooking.com</p>
             </div>
+            <ul style="display: flex; justify-content: flex-end; list-style: none;">
+                <li><a href="{{ route('custom_login.view') }}" class="link"
+                        style="color: white; background-color: #ff7f7f; padding: 2px 5px; border-radius: 5px; text-decoration: none;">Admin</a>
+                </li>
+            </ul>
             <div class="nav-menu" id="navMenu">
                 <ul>
                     <li><a href="{{ url('/') }}" class="link active">Home</a></li>
                     @guest
-                        <li><a href="{{ url('login') }}" class="link">Sign In/Up</a></li>
+                    <li><a href="{{ url('login') }}" class="link">Sign In/Up</a></li>
                     @endguest
                     <li><a href="{{ url('buy') }}" class="link">Buy</a></li>
-                    <li><a href="{{ url('about') }}" class="link">About</a></li>
+                    @auth
+                    <li><a href="{{ url('log_out') }}" class="link">Log Out</a></li>
+                    @endauth
+
                     <li><a href="{{ url('view_profile') }}" class="link">Profile</a></li>
                     <!-- Profile Dropdown -->
                     {{-- <li class="dropdown" id="profileDropdown">
                         <a href="#" class="link" onclick="toggleDropdown(event)">Profile</a>
                         <div class="dropdown-content">
                             @auth
-                                <a href="{{ url('view_profile') }}">View Profile</a>
-                                <a href="{{ url('edit_profile') }}">Edit Profile</a>
-                                <a href="{{ 'log_out' }}">Log Out</a>
+                            <a href="{{ url('view_profile') }}">View Profile</a>
+                            <a href="{{ url('edit_profile') }}">Edit Profile</a>
+                            <a href="{{ 'log_out' }}">Log Out</a>
                             @else
-                                <a href="{{ 'login' }}">SignIn/Up</a>
+                            <a href="{{ 'login' }}">SignIn/Up</a>
                             @endauth
-
-
-
-
-
                         </div>
-
                     </li> --}}
                     <!-- End Profile Dropdown -->
                 </ul>
             </div>
         </nav>
-        @if (Session::has('msg'))
-            <p class="alert alert-success">{{ Session::get('msg') }}</p>
-        @endif
-        <form action="search.php" method="GET">
-            <label for="origin">Origin:</label>
-            <input type="text" id="origin" name="origin" list="cityList" placeholder="Choose a destinaiton"
-                required>
+        <div class="container">
+            <form action="{{ url('search_bus') }}" method="GET">
+                @if (Session::has('msg'))
+                <p class="alert alert-success">{{ Session::get('msg') }}</p>
+                @endif
+                <label for="origin">Origin:</label>
+                <input type="text" id="origin" name="starting_point" list="cityList" placeholder="Choose a destinaiton"
+                    required>
 
-            <label for="destination">Destination:</label>
-            <input type="text" id="destination" name="destination" list="cityList" placeholder="Choose a destinaiton"
-                required>
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" name="ending_point" list="cityList"
+                    placeholder="Choose a destinaiton" required>
 
-            <datalist id="cityList">
-                <option value="Barishal">
-                <option value="Chattogram">
-                <option value="Dhaka">
-                <option value="Khulna">
-                <option value="Rajshahi">
-                <option value="Rangpur">
-                <option value="Mymensingh">
-                <option value="Sylhet">
-            </datalist>
+                <datalist id="cityList">
+                    <option value="Barishal">
+                    <option value="Chattogram">
+                    <option value="Dhaka">
+                    <option value="Khulna">
+                    <option value="Rajshahi">
+                    <option value="Rangpur">
+                    <option value="Mymensingh">
+                    <option value="Sylhet">
+                </datalist>
 
-            <label for="depart-date">Departure Date:</label>
-            <input type="date" id="depart-date" name="depart-date" required>
+                <label for="depart-date">Departure Date:</label>
+                <input type="date" id="depart-date" name="date" required>
 
-            <label for="return-date">Return Date:</label>
-            <input type="date" id="return-date" name="return-date">
+                <label for="return-date">Return Date:</label>
+                <input type="date" id="return-date" name="return-date">
 
-            <input type="submit" value="Search Bus">
-        </form>
+                <input type="submit" value="Search Bus">
+            </form>
+        </div>
+
+
 
     </div>
     <script>
@@ -163,6 +169,7 @@
                 }
             }
         }
+
     </script>
     <script src="{{ asset('js/homeview.js') }}"></script>
 </body>

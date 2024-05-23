@@ -13,9 +13,8 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="#">My App</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#">busbooking.com</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -25,33 +24,7 @@
                     </li>
                     <!-- Add more navigation links here -->
                 </ul>
-                <ul class="navbar-nav ms-auto">
-                    @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('view_profile') }}">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('edit_profile') }}">Edit</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('change_password') }}" class="btn btn-primary">Change Password</a>
-                        </li>
-                        <li class="nav-item">
-                            <form action="{{ route('log_out') }}" method="GET"> <!-- Change method to POST -->
-                                @csrf
-                                <button type="submit" class="btn btn-link nav-link">Logout</button>
-                            </form>
-
-                        </li>
-                    @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Register</a>
-                        </li>
-                    @endauth
-                </ul>
+                @yield('navbar')
             </div>
         </div>
     </nav>

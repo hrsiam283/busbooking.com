@@ -14,6 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             '/pay-via-ajax', '/success', '/cancel', '/fail', '/ipn'
         ]);
+        $middleware->alias([
+            'onlyguest' => \App\Http\Middleware\OnlyGuest::class,
+            'notguest' => \App\Http\Middleware\CheckNotGuest::class,
+            'onlyuser' => \App\Http\Middleware\Onlyuser::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

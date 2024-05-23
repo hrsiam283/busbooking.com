@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BusController;
 use App\Http\Controllers\CrudController;
+use App\Http\Controllers\CustomController;
 use App\Http\Controllers\ForgotPasswordManager;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
@@ -25,7 +28,7 @@ Route::get("/about", function () {
 })->name("about");
 Route::get("/login", function () {
     return view("loginview");
-})->name("login");
+})->name("login")->middleware('onlyguest');
 Route::get("/buy", function () {
     return view("buyview");
 })->name("buy");
@@ -55,19 +58,19 @@ Route::get('/layout', function () {
 });
 // web.php or routes/web.php
 
-Route::get('change_password', [AuthController::class, 'change_password'])->name('change_password');
-Route::post('update_password', [AuthController::class, 'update_password'])->name('update_password');
+Route::get('change_password', [AuthController::class, 'change_password'])->name('change_password')->middleware('onlyuser');
+Route::post('update_password', [AuthController::class, 'update_password'])->name('update_password')->middleware('onlyuser');
 Route::get('/search_bus', [SearchController::class, 'search_bus'])->name('search_bus');
-Route::get('seat_management', [SearchController::class, 'seat_management'])->name('seat_management');
+Route::get('seat_management', [SearchController::class, 'seat_management'])->name('seat_management')->middleware('notguest');
 Route::get('/seat_view/{id}', [SearchController::class, 'seat_view'])->name('seat_view');
 Route::get('/temporary', [BusController::class, 'temporary'])->name('temporary'); //just for checking
 // Route::get('/showbustable', [YourControllerName::class, 'show_bus'])->name('show_bus');
 // Route::post('/showbustable', [SearchController::class, 'search_bus'])->name('search_bus');
 
 //forgot password
-Route::get('/forgot_password', [ForgotPasswordManager::class, 'forgot_password'])->name('forgot_password.view');
-Route::post('/forgot_password', [ForgotPasswordManager::class, 'forgot_passwordPost'])->name('forgot_passwordPost');
-Route::get('/resetPassword/{token}', [ForgotPasswordManager::class, 'resetPassword'])->name('resetPassword');
+Route::get('/forgot_password', [ForgotPasswordManager::class, 'forgot_password'])->name('forgot_password.view')->middleware('onlyguest');
+Route::post('/forgot_password', [ForgotPasswordManager::class, 'forgot_passwordPost'])->name('forgot_passwordPost')->middleware('onlyguest');
+Route::get('/resetPassword/{token}', [ForgotPasswordManager::class, 'resetPassword'])->name('resetPassword')->middleware('onlyguest');
 Route::post('/resetPassword', [ForgotPasswordManager::class, 'resetPasswordPost'])->name('resetPasswordPost');
 
 
@@ -77,19 +80,31 @@ Route::post('/resetPassword', [ForgotPasswordManager::class, 'resetPasswordPost'
 Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
 // Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
 Route::get('/payment_details', [SearchController::class, 'payment_details'])->name('payment_details');
+route::get('/showdownloadinfo', [SearchController::class, 'showdownloadinfo'])->name('showdownloadinfo');
 Route::post('/pay', [SslCommerzPaymentController::class, 'index']);
 Route::get('/downloadTicket', [SearchController::class, 'downloadTicket'])->name('downloadTicket');
 Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
 
 Route::match(['get', 'post'], '/success', [SslCommerzPaymentController::class, 'success'])->name('payment.success');
-Route::get('/fail', [SslCommerzPaymentController::class, 'fail'])->name('payment.fail');
+Route::post('/fail', [SslCommerzPaymentController::class, 'fail'])->name('payment.fail');
 Route::get('/cancel', [SslCommerzPaymentController::class, 'cancel'])->name('payment.cancel');
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn'])->name('payment.ipn');
 
 
 Route::get('/master2', function () {
-    $pdf = Pdf::loadView('test');
-    return $pdf->download();
+    return view('layout.navbar');
 });
+
+
+// this function will only available for backend developer
+route::get('/AdminRegisterPost', [AdminController::class, 'AdminRegisterPost'])->name('AdminRegisterPost');
+
+route::get('/purchase_history', [AuthController::class, 'purchase_history'])->name('purchase_history');
+
+Route::get('/custom_register', [CustomController::class, 'custom_register'])->name('custom_register.view');
+Route::post('/custom_register', [CustomController::class, 'custom_registerPost'])->name('custom_registerPost');
+Route::get('/custom_login', [CustomController::class, 'custom_login'])->name('custom_login.view');
+Route::post('/custom_login', [CustomController::class, 'custom_loginPost'])->name('custom_loginPost');
+
 
 //SSLCOMMERZ END

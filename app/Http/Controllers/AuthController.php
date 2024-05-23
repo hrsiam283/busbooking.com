@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Cookie;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -139,5 +140,13 @@ class AuthController extends Controller
     public function view_profile()
     {
         return view('view_profile');
+    }
+    // purchase_history
+    public function purchase_history()
+    {
+        $user = Auth::user();
+        $email = $user->email;
+        $order = Order::where('email', $email)->paginate(5);
+        return view('purchase_history', compact('order'));
     }
 }

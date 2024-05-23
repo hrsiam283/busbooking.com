@@ -104,3 +104,15 @@ APP_URL=http://127.0.0.1:8000
 ```php
 'same_site' => env('SESSION_SAME_SITE', null),
 ```
+
+## using domPdf
+
+https://youtu.be/A1OTwHwAQEY?list=PLDc9bt_00KcJ6ageTFcXvWdd0oEQJuEex
+
+## QR Code without imagick extenstion
+
+https://youtu.be/iKShCTRG67s
+
+```php
+<img src="data:image/png;base64, {!! base64_encode(QrCode::size(200)->generate('http://google.com')) !!} ">
+```
