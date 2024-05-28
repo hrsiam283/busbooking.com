@@ -59,7 +59,7 @@
                 <th scope="col">Ending Point</th>
                 <th scope="col">Fare</th>
                 <th scope="col">Coach Type</th>
-                <th scope="col">Seats Available</th>\
+                <th scope="col">Seats Available</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -76,7 +76,7 @@
                 <td>{{ $data->fare }}</td>
                 <td>{{ $data->coach_type }}</td>
                 <td>{{ $data->seats_available }}</td>
-                <td><a href="{{ route('buses.show', $bus->id) }}" class="btn btn-primary">View</a></td>
+                <td><a href="{{ route('admin_seat_view', ['id' => $data->id]) }}" class="btn btn-primary">View</a></td>
             </tr>
             @endforeach
         </tbody>

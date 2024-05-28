@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
 use App\Models\Bus;
+use App\Models\User;
 use Session;
 
 class AdminController extends Controller
@@ -60,5 +61,36 @@ class AdminController extends Controller
         $bus =
             Bus::where('date', $bus_date)->get();
         return view('admin.seat_info_view', compact('bus'));
+    }
+    //admin_seat_view fun
+    public function admin_seat_view($id)
+    {
+        $bus = Bus::find($id);
+        return view('admin.seat_viewAdmin', compact('bus'));
+    }
+    //admin_seat_info_view fun
+    public function admin_seat_info_button(Request $request)
+    {
+        return view('admin.seat_info');
+    }
+    // fun admin_showuser
+    public function showuser()
+    {
+        return view('admin.showuser');
+    }
+    //admin_search fun
+    public function admin_search(Request $request)
+    {
+        $query = $request->input('query');
+        $users = [];
+
+        if ($query) {
+            $users = User::where('mobile_no', 'like', '%' . $query . '%')
+                ->orWhere('email', 'like', '%' . $query . '%')
+                ->orWhere('name', 'like', '%' . $query . '%')
+                ->get();
+        }
+
+        return view('admin.show_user_search', compact('users', 'query'));
     }
 }

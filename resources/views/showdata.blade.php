@@ -1,9 +1,11 @@
 @extends('admin.layout')
 @section('navbar')
+@extends('admin.layout')
+@section('navbar')
 <ul class="navbar-nav ms-auto">
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
+        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Dashboard</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.dashboard') }}">Users</a>
@@ -23,11 +25,12 @@
             Show Bus
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            {{-- <li><a class="dropdown-item" href="{{ url('showdata') }}">Buslist</a></li> --}}
+            <li><a class="dropdown-item" href="{{ route('admin_seat_view')}}">Seat View</a></li>
             <li><a class="dropdown-item" href="{{ url('createdata') }}">Add Bus</a></li>
-            <li><a class="dropdown-item" href="#">Seat Info</a></li>
         </ul>
     </li>
+
+
 
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a>
@@ -40,6 +43,8 @@
 
     </li>
 </ul>
+
+
 @endsection
 @section('content')
 

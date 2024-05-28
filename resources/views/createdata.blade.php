@@ -24,7 +24,7 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="{{ url('showdata') }}">Buslist</a></li>
-            <li><a class="dropdown-item" href="#">Seat Info</a></li>
+            <li><a class="dropdown-item" href="{{ route('admin_seat_view') }}">Seat Info</a></li>
         </ul>
     </li>
 

@@ -6,7 +6,7 @@
         <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Dashboard</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Users</a>
+        <a class="nav-link" href="{{ route('admin_show_all_user') }}">Users</a>
     </li>
     <li class=" nav-item">
         <a class="nav-link" href="{{ route('admin.dashboard') }}">Orders</a>
@@ -18,14 +18,13 @@
         <a class="nav-link" href="{{ route('admin.dashboard') }}">Add Bus</a>
     </li> --}}
     <li class="nav-item dropdown">
-        <a class="btn btn-primary dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
+        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Manage Bus
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="{{ url('showdata') }}">Buslist</a></li>
             <li><a class="dropdown-item" href="{{ url('createdata') }}">Add Bus</a></li>
-            <li><a class="dropdown-item" href="{{ url('seat_info') }}">Seat Info</a></li>
+            <li><a class="dropdown-item" href="{{ route('admin_seat_info_button') }}">Seat Info</a></li>
         </ul>
     </li>
 

@@ -108,6 +108,11 @@ route::get('/admin.dashboard', [AdminController::class, 'admin_dashboard'])->nam
 Route::get('/custom_login', [CustomController::class, 'custom_login'])->name('custom_login.view')->middleware('dashoboard');
 Route::post('/custom_login', [CustomController::class, 'custom_loginPost'])->name('custom_loginPost');
 Route::post('/fetch_bus_data', [AdminController::class, 'fetchBusData'])->name('fetch_bus_data');
-
+// seat_info
+route::get('/admin_seat_info_button', [AdminController::class, 'admin_seat_info_button'])->name('admin_seat_info_button');
+Route::get('/admin_seat_view/{id}', [AdminController::class, 'admin_seat_view'])->name('admin_seat_view');
+// admin.showuser route
+Route::get('/showuser', [AdminController::class, 'showuser'])->name('admin_show_all_user');
+Route::get('/admin_search', [AdminController::class, 'admin_search'])->name('admin_search');
 
 //SSLCOMMERZ END
