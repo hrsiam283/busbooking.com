@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Bus;
+use App\Models\buslist;
 use App\Models\Order;
 
 function UpdateSeatInfo(Order $order, Bus $bus)
@@ -47,4 +48,36 @@ function UpdateSeatInfo(Order $order, Bus $bus)
     $bus->seats_available = $seats_available;
     $bus->save();
     // return view('showdownloadinfo', compact('bus', 'ticketlist'));
+}
+// IfNotFoundThenCreate function
+function IfNotFoundThenCreate($date)
+{
+    $bus = bus::where('date', $date)->get();
+    if ($bus != '[]') {
+        // $buses = bus::where('date', $date)
+        //     ->where('starting_point', $starting_point)
+        //     ->where('ending_point', $ending_point)->get();
+        // if ($buses != '[]') {
+        //     return view('showbustable', compact('buses'));
+        // }
+        // Session::flash('msg', 'No Bus Found In This Route');
+
+        // return view('showbustable', compact('buses'));
+    } else {
+        $bus = buslist::all();
+        foreach ($bus as $key => $value) {
+            $newbus = new bus();
+            $newbus->date = $date;
+            $newbus->bus_name = $value->bus_name;
+            $newbus->departing_time = $value->departing_time;
+            $newbus->coach_no = $value->coach_no;
+            $newbus->starting_point = $value->starting_point;
+            $newbus->ending_point = $value->ending_point;
+            $newbus->fare = $value->fare;
+            $newbus->coach_type = $value->coach_type;
+            $newbus->seats_available = $value->seats_available;
+            $newbus->view = $value->view;
+            $newbus->save();
+        }
+    }
 }

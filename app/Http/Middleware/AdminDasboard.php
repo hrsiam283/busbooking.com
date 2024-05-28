@@ -4,10 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class OnlyAdmin
+class AdminDasboard
 {
     /**
      * Handle an incoming request.
@@ -16,7 +15,9 @@ class OnlyAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // if(session::has)
+        if (session()->has('user')) {
+            return redirect()->route('admin.dashboard');
+        }
         return $next($request);
     }
 }

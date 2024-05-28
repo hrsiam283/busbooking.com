@@ -1,83 +1,149 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('admin.layout')
+@section('navbar')
+<ul class="navbar-nav ms-auto">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ asset('css/createdata.css') }}">
-    <title>Document</title>
-</head>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">Users</a>
+    </li>
+    <li class=" nav-item">
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">Orders</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">Change Password</a>
+    </li>
+    {{-- <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">Add Bus</a>
+    </li> --}}
+    <li class="nav-item dropdown">
+        <a class="btn btn-primary dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Add Bus
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{{ url('showdata') }}">Buslist</a></li>
+            <li><a class="dropdown-item" href="#">Seat Info</a></li>
+        </ul>
+    </li>
 
-<body>
-    <div class="container">
-        <a href="{{ url('showdata') }}" class="link">Show Data</a>
 
-        <h2>Add Bus Information</h2>
-        <form action="{{ url('storedata') }}" method="POST">
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a>
+    </li>
+    <li class="nav-item">
+        <form action="{{ route('admin.dashboard') }}" method="GET">
             @csrf
-            <label for="bus_name">Bus Name:</label><br>
-            <input type="text" id="bus_name" name="bus_name"><br><br>
-
-            <label for="departing_time">Departing Time:</label><br>
-            <input type="time" id="departing_time" name="departing_time"><br><br>
-
-            <label for="coach_no">Coach Number:</label><br>
-            <input type="text" id="coach_no" name="coach_no"><br><br>
-
-            <label for="starting_point">Starting Point:</label><br>
-            <input type="text" id="starting_point" name="starting_point" list="cityList"><br><br>
-
-            <label for="ending_point">Ending Point:</label><br>
-            <input type="text" id="ending_point" name="ending_point" list="cityList"><br><br>
-
-            <label for="fare">Fare:</label><br>
-            <input type="number" id="fare" name="fare" step="0.01" min="0" max="9999999.99"
-                title="Please enter a valid fare amount" required><br><br>
-
-
-            <label for="coach_type">Coach Type:</label><br>
-            <select id="coach_type" name="coach_type">
-                <option value="AC">AC</option>
-                <option value="Non-AC">Non-AC</option>
-            </select><br><br>
-
-
-            <label for="seats_available" style="display: none;">Seats Available:</label><br>
-            <input type="hidden" id="seats_available" name="seats_available" value="40">
-
-
-            <<label for="view" style="display: none;">View:</label><br>
-                <input type="hidden" id="view" name="view" value="0000000000000000000000000000000000000000">
-
-
-                <!-- Datalist for starting point -->
-                <datalist id="cityList">
-                    <option value="Barishal">
-                    <option value="Chattogram">
-                    <option value="Dhaka">
-                    <option value="Khulna">
-                    <option value="Rajshahi">
-                    <option value="Rangpur">
-                    <option value="Mymensingh">
-                    <option value="Sylhet">
-                </datalist>
-
-                <input type="submit" value="Submit">
+            <button type="submit" class="btn btn-link nav-link">Logout</button>
         </form>
 
-    </div>
-    <script>
-        (function (window, document) {
-            var loader = function () {
-                var script = document.createElement("script"), tag = document.getElementsByTagName("script")[0];
-                script.src = "https://sandbox.sslcommerz.com/embed.min.js?" + Math.random().toString(36).substring(7);
-                tag.parentNode.insertBefore(script, tag);
-            };
+    </li>
+</ul>
+@endsection
+@section('content')
+<div class="container mt-5">
+    <a href="{{ url('showdata') }}" class="btn btn-secondary mb-3">Show Data</a>
 
-            window.addEventListener ? window.addEventListener("load", loader, false) : window.attachEvent("onload", loader);
-        })(window, document);
-    </script>
-</body>
+    <h2 class="mb-4">Add Bus Information</h2>
 
-</html>
+    <form action="{{ url('storedata') }}" method="POST" class="needs-validation row g-3" novalidate>
+        @csrf
+
+        <div class="col-md-6">
+            <label for="bus_name" class="form-label">Bus Name:</label>
+            <input type="text" class="form-control" id="bus_name" name="bus_name" required>
+            <div class="invalid-feedback">Please enter the bus name.</div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="departing_time" class="form-label">Departing Time:</label>
+            <input type="time" class="form-control" id="departing_time" name="departing_time" required>
+            <div class="invalid-feedback">Please enter the departing time.</div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="coach_no" class="form-label">Coach Number:</label>
+            <input type="text" class="form-control" id="coach_no" name="coach_no" required>
+            <div class="invalid-feedback">Please enter the coach number.</div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="starting_point" class="form-label">Starting Point:</label>
+            <input type="text" class="form-control" id="starting_point" name="starting_point" list="cityList" required>
+            <div class="invalid-feedback">Please enter the starting point.</div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="ending_point" class="form-label">Ending Point:</label>
+            <input type="text" class="form-control" id="ending_point" name="ending_point" list="cityList" required>
+            <div class="invalid-feedback">Please enter the ending point.</div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="fare" class="form-label">Fare:</label>
+            <input type="number" class="form-control" id="fare" name="fare" step="0.01" min="0" max="9999999.99"
+                title="Please enter a valid fare amount" required>
+            <div class="invalid-feedback">Please enter a valid fare amount.</div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="coach_type" class="form-label">Coach Type:</label>
+            <select class="form-select" id="coach_type" name="coach_type" required>
+                <option value="">Select Coach Type</option>
+                <option value="AC">AC</option>
+                <option value="Non-AC">Non-AC</option>
+            </select>
+            <div class="invalid-feedback">Please select a coach type.</div>
+        </div>
+
+        <input type="hidden" id="seats_available" name="seats_available" value="40">
+        <input type="hidden" id="view" name="view" value="0000000000000000000000000000000000000000">
+
+        <!-- Datalist for starting and ending points -->
+        <datalist id="cityList">
+            <option value="Barishal">
+            <option value="Chattogram">
+            <option value="Dhaka">
+            <option value="Khulna">
+            <option value="Rajshahi">
+            <option value="Rangpur">
+            <option value="Mymensingh">
+            <option value="Sylhet">
+        </datalist>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Bootstrap validation
+    (function () {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+
+    // SSLCommerz embed script
+    (function (window, document) {
+        var loader = function () {
+            var script = document.createElement("script"),
+                tag = document.getElementsByTagName("script")[0];
+            script.src = "https://sandbox.sslcommerz.com/embed.min.js?" + Math.random().toString(36).substring(7);
+            tag.parentNode.insertBefore(script, tag);
+        };
+        window.addEventListener ? window.addEventListener("load", loader, false) : window.attachEvent("onload", loader);
+    })(window, document);
+</script>
+@endsection

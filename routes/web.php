@@ -36,13 +36,14 @@ Route::get("/buy", function () {
 
 //admin pannel
 // Route::get('/showdata', [BusController::class, 'showdata']);
-Route::get('/createdata', [BusController::class, 'createdata']);
-Route::post('/storedata', [BusController::class, 'storedata']);
+Route::get('/createdata', [BusController::class, 'createdata'])->name('createdata.view');
+Route::post('/storedata', [BusController::class, 'storedata'])->name('createdata.store');
 Route::get('/editdata/{id}', [BusController::class, 'edit']);
 Route::post('/updatedata/{id}', [BusController::class, 'update']);
 Route::put('/bus/{bus}', [BusController::class, 'update'])->name('bus.update');
 Route::delete('/bus/{bus}', [BusController::class, 'destroy'])->name('bus.destroy');
-Route::get('/showdata', [BusController::class, 'showdata'])->name('showdata');
+Route::get('/showdata', [BusController::class, 'showdata'])->name('showdata'); // buslist will be shown from admin panel
+route::get('/seat_info', [AdminController::class, 'seat_info'])->name('seat_info.view');
 
 
 //user pannel
@@ -103,8 +104,10 @@ route::get('/purchase_history', [AuthController::class, 'purchase_history'])->na
 
 Route::get('/custom_register', [CustomController::class, 'custom_register'])->name('custom_register.view');
 Route::post('/custom_register', [CustomController::class, 'custom_registerPost'])->name('custom_registerPost');
-Route::get('/custom_login', [CustomController::class, 'custom_login'])->name('custom_login.view');
+route::get('/admin.dashboard', [AdminController::class, 'admin_dashboard'])->name('admin.dashboard');
+Route::get('/custom_login', [CustomController::class, 'custom_login'])->name('custom_login.view')->middleware('dashoboard');
 Route::post('/custom_login', [CustomController::class, 'custom_loginPost'])->name('custom_loginPost');
+Route::post('/fetch_bus_data', [AdminController::class, 'fetchBusData'])->name('fetch_bus_data');
 
 
 //SSLCOMMERZ END

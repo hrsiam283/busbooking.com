@@ -1,26 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('admin.layout')
+@section('navbar')
+<ul class="navbar-nav ms-auto">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ asset('css/showdata.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Document</title>
-</head>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">Users</a>
+    </li>
+    <li class=" nav-item">
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">Orders</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">Change Password</a>
+    </li>
+    {{-- <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">Add Bus</a>
+    </li> --}}
+    <li class="nav-item dropdown">
+        <a class="btn btn-primary dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Show Bus
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {{-- <li><a class="dropdown-item" href="{{ url('showdata') }}">Buslist</a></li> --}}
+            <li><a class="dropdown-item" href="{{ url('createdata') }}">Add Bus</a></li>
+            <li><a class="dropdown-item" href="#">Seat Info</a></li>
+        </ul>
+    </li>
 
-<body>
-    <h1 class="text-center">Bus Lists</h1>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a>
+    </li>
+    <li class="nav-item">
+        <form action="{{ route('admin.dashboard') }}" method="GET">
+            @csrf
+            <button type="submit" class="btn btn-link nav-link">Logout</button>
+        </form>
 
-    <div class="container">
-        @if (Session::has('msg'))
-        <p class="alert alert-success">{{ Session::get('msg') }}</p>
-        @endif
-        <a href="{{ url('createdata') }}" class="link">Add Data</a>
-        <table class="table" border="2">
-            <thead>
+    </li>
+</ul>
+@endsection
+@section('content')
+
+<div class="container mt-5">
+
+
+    @if (Session::has('msg'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ Session::get('msg') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{{ url('createdata') }}" class="btn btn-primary">Add Bus</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
                 <tr>
                     <th>#</th>
                     <th>Bus Name</th>
@@ -31,45 +70,49 @@
                     <th>Fare</th>
                     <th>Coach Type</th>
                     <th>Seats Available</th>
-                    <th>View</th>
+                    {{-- <th>View</th> --}}
                     <th>Action</th>
                 </tr>
             </thead>
-            @foreach ($showdata as $key => $value)
-            <tr>
+            <tbody>
+                @foreach ($showdata as $key => $value)
+                <tr>
+                    <td>{{ $key + 1 }}</td>
+                    <td>{{ $value->bus_name }}</td>
+                    <td>{{ $value->departing_time }}</td>
+                    <td>{{ $value->coach_no }}</td>
+                    <td>{{ $value->starting_point }}</td>
+                    <td>{{ $value->ending_point }}</td>
+                    <td>{{ $value->fare }}</td>
+                    <td>{{ $value->coach_type }}</td>
+                    <td>{{ $value->seats_available }}</td>
+                    {{-- <td>{{ $value->view }}</td> --}}
+                    <td>
+                        <a href="{{ url('editdata', ['id' => $value->id]) }}"
+                            class="btn btn-success btn-sm mb-1">Edit</a>
 
-                <td>{{ $key + 1 }}</td>
-                <td>{{ $value->bus_name }}</td>
-                <td>{{ $value->departing_time }}</td>
-                <td>{{ $value->coach_no }}</td>
-                <td>{{ $value->starting_point }}</td>
-                <td>{{ $value->ending_point }}</td>
-                <td>{{ $value->fare }}</td>
-                <td>{{ $value->coach_type }}</td>
-                <td>{{ $value->seats_available }}</td>
-                <td>{{ $value->view }}</td>
-                <td>
-                    <a href="{{ url('editdata', ['id' => $value->id]) }}" class="btn btn-success">Edit</a>
+                        <form id="delete-form-{{ $value->id }}" action="{{ route('bus.destroy', $value->id) }}"
+                            method="POST" style="display: none;">
+                            @csrf
+                            @method('DELETE')
+                        </form>
 
-                    <form id="delete-form-{{ $value->id }}" action="{{ route('bus.destroy', $value->id) }}"
-                        method="POST" style="display: none;">
-                        @csrf
-                        @method('DELETE')
-                    </form>
-
-                    <a href="#" class="btn btn-danger" onclick="event.preventDefault();
+                        <button type="button" class="btn btn-danger btn-sm" onclick="event.preventDefault();
                             if(confirm('Are you sure you want to delete this bus record?')) {
                                 document.getElementById('delete-form-{{ $value->id }}').submit();
                             }">
-                        Delete
-                    </a>
-                </td>
-            </tr>
-            @endforeach
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
         </table>
-        {{ $showdata->links() }}
     </div>
 
-</body>
+    <div class="d-flex justify-content-center">
+        {{ $showdata->links() }}
+    </div>
+</div>
 
-</html>
+@endsection

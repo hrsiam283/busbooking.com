@@ -21,43 +21,44 @@ class SearchController extends Controller
         // $departureDate = $request->input('depart-date');
         // $returnDate = $request->input('return-date');
 
-        $bus = bus::where('date', $date)->get();
-        if ($bus != '[]') {
-            $buses = bus::where('date', $date)
-                ->where('starting_point', $starting_point)
-                ->where('ending_point', $ending_point)->get();
-            if ($buses != '[]') {
-                return view('showbustable', compact('buses'));
-            }
-            Session::flash('msg', 'No Bus Found In This Route');
+        // $bus = bus::where('date', $date)->get();
+        // if ($bus != '[]') {
+        //     $buses = bus::where('date', $date)
+        //         ->where('starting_point', $starting_point)
+        //         ->where('ending_point', $ending_point)->get();
+        //     if ($buses != '[]') {
+        //         return view('showbustable', compact('buses'));
+        //     }
+        //     Session::flash('msg', 'No Bus Found In This Route');
 
-            return view('showbustable', compact('buses'));
-        } else {
-            $bus = buslist::all();
-            foreach ($bus as $key => $value) {
-                $newbus = new bus();
-                $newbus->date = $date;
-                $newbus->bus_name = $value->bus_name;
-                $newbus->departing_time = $value->departing_time;
-                $newbus->coach_no = $value->coach_no;
-                $newbus->starting_point = $value->starting_point;
-                $newbus->ending_point = $value->ending_point;
-                $newbus->fare = $value->fare;
-                $newbus->coach_type = $value->coach_type;
-                $newbus->seats_available = $value->seats_available;
-                $newbus->view = $value->view;
-                $newbus->save();
-            }
-            $buses = bus::where('date', $date)
-                ->where('starting_point', $starting_point)
-                ->where('ending_point', $ending_point)->get();
-            if ($buses != '[]') {
-                return view('showbustable', compact('buses'));
-            }
-            Session::flash('msg', 'No Bus Found In This Route');
-
+        //     return view('showbustable', compact('buses'));
+        // } else {
+        //     $bus = buslist::all();
+        //     foreach ($bus as $key => $value) {
+        //         $newbus = new bus();
+        //         $newbus->date = $date;
+        //         $newbus->bus_name = $value->bus_name;
+        //         $newbus->departing_time = $value->departing_time;
+        //         $newbus->coach_no = $value->coach_no;
+        //         $newbus->starting_point = $value->starting_point;
+        //         $newbus->ending_point = $value->ending_point;
+        //         $newbus->fare = $value->fare;
+        //         $newbus->coach_type = $value->coach_type;
+        //         $newbus->seats_available = $value->seats_available;
+        //         $newbus->view = $value->view;
+        //         $newbus->save();
+        //     }
+        IfNotFoundThenCreate($date);
+        $buses = bus::where('date', $date)
+            ->where('starting_point', $starting_point)
+            ->where('ending_point', $ending_point)->get();
+        if ($buses != '[]') {
             return view('showbustable', compact('buses'));
         }
+        Session::flash('msg', 'No Bus Found In This Route');
+
+        return view('showbustable', compact('buses'));
+        // }
     }
     // create a function named  'payment_details'
     public function payment_details(Request $request)

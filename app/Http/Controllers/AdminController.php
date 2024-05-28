@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
+use App\Models\Bus;
 use Session;
 
 class AdminController extends Controller
@@ -41,5 +42,23 @@ class AdminController extends Controller
         }
         Session::flash('error', 'Failed Successfully');
         return view('login');
+    }
+    public function admin_dashboard()
+    {
+        return view('admin.dashboard');
+    }
+    // seat_info function
+    public function seat_info()
+    {
+        return view('admin.seat_info');
+    }
+    // fetchBusData function
+    public function fetchBusData(Request $request)
+    {
+        $bus_date = $request->input('bus_date');
+        IfNotFoundThenCreate($bus_date);
+        $bus =
+            Bus::where('date', $bus_date)->get();
+        return view('admin.seat_info_view', compact('bus'));
     }
 }

@@ -49,8 +49,9 @@ class CustomController extends Controller
             ];
             session()->put('user', $cust);
             Session::flash('success', 'Login Successful');
-            // if (session::has('user'))
-            //     return view('admininfo', compact('admin'));
+            if (session()->has('user')) {
+                // echo "Session is set";
+            }
         }
         Session::flash('error', 'Failed Successfully');
         return view('admin.dashboard');
@@ -63,5 +64,9 @@ class CustomController extends Controller
     {
         session()->forget('user');
         return redirect('/');
+    }
+    public function dashboard()
+    {
+        return view('admin.dashboard');
     }
 }

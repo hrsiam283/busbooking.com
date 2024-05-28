@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'onlyguest' => \App\Http\Middleware\OnlyGuest::class,
             'notguest' => \App\Http\Middleware\CheckNotGuest::class,
             'onlyuser' => \App\Http\Middleware\Onlyuser::class,
+            'dashoboard' => \App\Http\Middleware\AdminDasboard::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
