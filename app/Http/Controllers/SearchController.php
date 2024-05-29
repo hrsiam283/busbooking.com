@@ -64,10 +64,18 @@ class SearchController extends Controller
     public function payment_details(Request $request)
     {
         $bus_id = $request->input('id');
+        $idx = 0;
         $bus = Bus::find($bus_id);
-        for ($i = 'A'; $i <= 'J'; $i++) {
+        for ($i = 'A'; $i <= 'Z'; $i++) {
             for ($j = 1; $j <= 4; $j++) {
+                $idx++;
                 $checkboxNames[] = $i . $j;
+                if ($idx == $bus->total_seats) {
+                    break;
+                }
+            }
+            if ($idx == $bus->total_seats) {
+                break;
             }
         }
         $ticketlist = [];

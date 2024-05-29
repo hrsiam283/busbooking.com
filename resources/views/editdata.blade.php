@@ -38,10 +38,6 @@
 
             <label for="seats_available">Seats Available:</label><br>
             <input type="text" id="seats_available" name="seats_available" value="{{ $bus->seats_available }}"><br><br>
-
-            <label for="view">View:</label><br>
-            <input type="view" id="view" name="view" value="{{ $bus->view }}"><br><br>
-
             <input type="submit" value="Update">
         </form>
     </div>

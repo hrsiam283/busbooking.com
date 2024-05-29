@@ -90,8 +90,11 @@
             <div class="invalid-feedback">Please select a coach type.</div>
         </div>
 
-        <input type="hidden" id="seats_available" name="seats_available" value="40">
-        <input type="hidden" id="view" name="view" value="0000000000000000000000000000000000000000">
+        <div class="col-md-6">
+            <label for="total_seats" class="form-label">Total Seats:</label>
+            <input type="text" class="form-control" id="total_seats" name="total_seats" required>
+            <div class="invalid-feedback">Please enter 1-100</div>
+        </div>
 
         <!-- Datalist for starting and ending points -->
         <datalist id="cityList">

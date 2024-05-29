@@ -6,6 +6,7 @@ use App\Models\buslist;
 use App\Models\bus;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+
 class BusController extends Controller
 {
     // Function to add a new bus
@@ -44,6 +45,7 @@ class BusController extends Controller
             'ending_point' => 'required',
             'fare' => 'required',
             'coach_type' => 'required',
+            'total_seats' => 'required',
         ]);
 
 
@@ -56,6 +58,13 @@ class BusController extends Controller
         $bus->ending_point = $validatedData['ending_point'];
         $bus->fare = $validatedData['fare'];
         $bus->coach_type = $validatedData['coach_type'];
+        $bus->seats_available = $validatedData['total_seats'];
+        $view = "";
+        for ($i = 0; $i < $validatedData['total_seats']; $i++) {
+            $view .= "0";
+        }
+        $bus->view = $view;
+        // dd($bus);
         $bus->save();
         Session::flash('msg', 'Data Successfully Added');
 
@@ -72,7 +81,6 @@ class BusController extends Controller
             'fare' => 'required',
             'coach_type' => 'required',
             'seats_available' => 'required|numeric',
-            'view' => 'required',
         ]);
 
         $bus = buslist::findOrFail($id);
@@ -83,12 +91,18 @@ class BusController extends Controller
         $bus->ending_point = $validatedData['ending_point'];
         $bus->fare = $validatedData['fare'];
         $bus->coach_type = $validatedData['coach_type'];
-        $bus->seats_available = $validatedData['seats_available'];
-        $bus->view = $validatedData['view'];
 
+        if ($validatedData['seats_available'] != $bus->seats_available) {
+            $view = "";
+            for ($i = 0; $i < $validatedData['seats_available']; $i++) {
+                $view .= "0";
+            }
+            $bus->view = $view;
+        }
+
+        $bus->seats_available = $validatedData['seats_available'];
         $bus->save();
         Session::flash('msg', 'Data Successfully Updated');
-
         return redirect('/showdata');
     }
     public function temporary()
@@ -96,5 +110,4 @@ class BusController extends Controller
         $bus = Bus::where('bus_name', 'Dina')->get();
         return view('temporary', compact('bus'));
     }
-
 }

@@ -30,7 +30,6 @@
     .disabled {
         background-color: lightgray;
     }
-
 </style>
 @section('content')
 <div class="container mt-5" style="display: flex; flex-direction: column; align-items: center;">
@@ -44,7 +43,7 @@
     {{-- <h2>{{ $view }}</h2> --}}
     <div class="row">
         <div class="col-5">
-            <h5>Seats Available: {{ $bus->seats_available }}</h5>
+            <p> Available: {{ $bus->seats_available }} Total : {{ $bus->total_seats }}</p>
             @if (Session::has('error'))
             <div class="alert alert-danger"> {{ Session::get('error') }}</div>
             @endif
@@ -55,38 +54,42 @@
                 <div class="form-group row">
                     <table>
                         @php
+                        $total_seats = $bus->total_seats;
                         $index = 0;
-                        $rows = range('A', 'J');
+                        $rows = range('A', 'Z');
                         $columns = range(1, 4); // Column labels
                         @endphp
 
                         @foreach ($rows as $row)
-                        <tr>
-                            @foreach ($columns as $column)
-                            @php
-                            $name = $row . $column;
-                            @endphp
-                            <td>
-                                {{-- <input type="checkbox" id="{{ $index }}" name="{{ $name }}" value="1"
-                                class="form-check-input">
-                                <label for="{{ $name }}" class="form-check-label">{{ $name }}</label> --}}
-                                @if ($view[$index] == '1')
-                                <div class="seat unavailable">
-                                    <input type="checkbox" id="{{ $index }}" name="{{ $name }}" value="1" disabled>
-                                    <label for="{{ $name }}">{{ $name }}</label>
-                                </div>
-                                @else
-                                <div class="seat available">
-                                    <input type="checkbox" id="{{ $index }}" name="{{ $name }}" value="1">
-                                    <label for="{{ $name }}">{{ $name }}</label>
-                                </div>
-                                @endif
-                            </td>
-                            @php
-                            $index = $index + 1;
-                            @endphp
-                            @endforeach
+                        @foreach ($columns as $column)
+                        @php
+                        $name = $row . $column;
+                        @endphp
+                        <td>
+                            @if ($view[$index] == '1')
+                            <div class="seat unavailable">
+                                <input type="checkbox" id="{{ $index }}" name="{{ $name }}" value="1" disabled>
+                                <label for="{{ $name }}">{{ $name }}</label>
+                            </div>
+                            @else
+                            <div class="seat available">
+                                <input type="checkbox" id="{{ $index }}" name="{{ $name }}" value="1">
+                                <label for="{{ $name }}">{{ $name }}</label>
+                            </div>
+                            @endif
+                        </td>
+                        @php
+                        $index = $index + 1;
+                        @endphp
 
+                        @if ($index == $total_seats)
+                        @break
+                        @endif
+                        @endforeach
+
+                        @if ($index == $total_seats)
+                        @break
+                        @endif
                         </tr>
                         @endforeach
                     </table>

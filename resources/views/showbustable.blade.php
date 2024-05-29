@@ -13,7 +13,8 @@
             <th>Ending Point</th>
             <th>Fare</th>
             <th>Coach Type</th>
-            <th>Seats Available</th>
+            <th>Available</th>
+            <th>Total</th>
             <th>View</th>
             {{-- <th>Created At</th>
             <th>Updated At</th> --}}
@@ -33,6 +34,7 @@
             <td>{{ $bus->fare }}</td>
             <td>{{ $bus->coach_type }}</td>
             <td>{{ $bus->seats_available }}</td>
+            <td>{{ $bus->total_seats }}</td>
             <td><a href="{{ route('seat_view', ['id' => $bus->id]) }}">View</a></td>
             {{-- <td>{{ $bus->created_at }}</td>
             <td>{{ $bus->updated_at }}</td> --}}

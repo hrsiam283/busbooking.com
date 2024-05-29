@@ -77,6 +77,7 @@ function IfNotFoundThenCreate($date)
             $newbus->coach_type = $value->coach_type;
             $newbus->seats_available = $value->seats_available;
             $newbus->view = $value->view;
+            $newbus->total_seats = $value->seats_available;
             $newbus->save();
         }
     }
