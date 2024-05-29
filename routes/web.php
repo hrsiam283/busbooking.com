@@ -115,4 +115,10 @@ Route::get('/admin_seat_view/{id}', [AdminController::class, 'admin_seat_view'])
 Route::get('/showuser', [AdminController::class, 'showuser'])->name('admin_show_all_user');
 Route::get('/admin_search', [AdminController::class, 'admin_search'])->name('admin_search');
 
+//adminLogOut
+Route::get('/adminLogOut', [AdminController::class, 'adminLogOut'])->name('adminLogOut');
+//adminOrders
+Route::get('/adminOrders', [AdminController::class, 'adminOrders'])->name('adminOrders');
+//adminOrderSearch
+Route::get('/adminOrderSearch', [AdminController::class, 'adminOrderSearch'])->name('adminOrderSearch');
 //SSLCOMMERZ END

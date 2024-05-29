@@ -9,10 +9,7 @@
         <a class="nav-link" href="{{ route('admin_show_all_user') }}">Users</a>
     </li>
     <li class=" nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Orders</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Change Password</a>
+        <a class="nav-link" href="{{ route('adminOrders') }}">Orders</a>
     </li>
     {{-- <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.dashboard') }}">Add Bus</a>
@@ -30,11 +27,9 @@
 
 
 
+
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a>
-    </li>
-    <li class="nav-item">
-        <form action="{{ route('admin.dashboard') }}" method="GET">
+        <form action="{{ route('adminLogOut') }}" method="GET">
             @csrf
             <button type="submit" class="btn btn-link nav-link">Logout</button>
         </form>
@@ -44,13 +39,20 @@
 
 @endsection
 @php
-$totalBuses = 10;
-$totalUsers = 100;
-$totalPurchasedTickets = 500;
-$totalCanceledTickets = 50;
-$totalRevenue = 5000;
+use App\Models\User;
+use App\Models\Buslist;
+use App\Models\Order;
+$totalBuses = Buslist::all()->count();
+$totalUsers = User::all()->count();
+$order = Order::where('status', 'processing')->get();
+$totalPurchasedTickets = $order->count();
+$totalPendingTickets = Order::where('status', 'pending')->count();
+$totalCanceledTickets = Order::all()->count()-$totalPurchasedTickets-$totalPendingTickets;
+$totalRevenue = 0;
+foreach ($order as $item) {
 
-
+$totalRevenue += (int) $item->amount;
+}
 @endphp
 @section('content')
 <div class="container mt-5">
@@ -76,6 +78,14 @@ $totalRevenue = 5000;
                 <div class="card-body">
                     <h5 class="card-title">Total Purchased Tickets</h5>
                     <p class="card-text">{{ $totalPurchasedTickets }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total Pending Tickets</h5>
+                    <p class="card-text">{{ $totalPendingTickets }}</p>
                 </div>
             </div>
         </div>

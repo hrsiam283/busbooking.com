@@ -80,9 +80,12 @@
                 <p>busbooking.com</p>
             </div>
             <ul style="display: flex; justify-content: flex-end; list-style: none;">
+                @guest
                 <li><a href="{{ route('custom_login.view') }}" class="link"
                         style="color: white; background-color: #ff7f7f; padding: 2px 5px; border-radius: 5px; text-decoration: none;">Admin</a>
                 </li>
+                @endguest
+
             </ul>
             <div class="nav-menu" id="navMenu">
                 <ul>

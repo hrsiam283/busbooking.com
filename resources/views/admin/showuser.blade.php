@@ -1,22 +1,17 @@
 @extends('admin.layout')
 @section('navbar')
 <ul class="navbar-nav ms-auto">
-
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
+
     </li>
     <li class="nav-item">
         <a href="{{ route('admin_show_all_user') }}" class="btn btn-primary">Users</a>
+
     </li>
     <li class=" nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Orders</a>
+        <a class="nav-link" href="{{ route('adminOrders') }}">Orders</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Change Password</a>
-    </li>
-    {{-- <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Add Bus</a>
-    </li> --}}
     <li class="nav-item dropdown">
         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Manage Bus
@@ -26,12 +21,6 @@
             <li><a class="dropdown-item" href="{{ url('createdata') }}">Add Bus</a></li>
             <li><a class="dropdown-item" href="{{ route('admin_seat_info_button') }}">Seat Info</a></li>
         </ul>
-    </li>
-
-
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a>
     </li>
     <li class="nav-item">
         <form action="{{ route('admin.dashboard') }}" method="GET">

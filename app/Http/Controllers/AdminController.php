@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
 use App\Models\Bus;
+use App\Models\Order;
 use App\Models\User;
 use Session;
 
@@ -92,5 +93,38 @@ class AdminController extends Controller
         }
 
         return view('admin.show_user_search', compact('users', 'query'));
+    }
+    //adminLogOut
+    public function adminLogOut()
+    {
+        session()->forget('user');
+        return view('homeview');
+    }
+    //adminOrders
+    public function adminOrders(Request $request)
+    {
+        $order = Order::all();
+        return view('admin.orders', compact('order'));
+    }
+    //adminOrderSearch
+    public function adminOrderSearch(Request $request)
+    {
+        $query = $request->input('query');
+        $order = [];
+
+        if ($query) {
+            $order = Order::where('transaction_id', 'like', '%' . $query . '%')
+                ->orWhere('name', 'like', '%' . $query . '%')
+                ->orWhere('email', 'like', '%' . $query . '%')
+                ->orWhere('phone', 'like', '%' . $query . '%')
+                ->orWhere('amount', 'like', '%' . $query . '%')
+                ->orWhere('status', 'like', '%' . $query . '%')
+                ->orWhere('card_issuer', 'like', '%' . $query . '%')
+                ->orWhere('currency', 'like', '%' . $query . '%')
+                ->get();
+        }
+
+
+        return view('admin.orders', compact('order', 'query'));
     }
 }

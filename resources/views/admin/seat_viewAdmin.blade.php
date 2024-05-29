@@ -3,16 +3,13 @@
 <ul class="navbar-nav ms-auto">
 
     <li class="nav-item">
-        <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Dashboard</a>
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Users</a>
+        <a class="nav-link" href="{{ route('admin_show_all_user') }}">Users</a>
     </li>
     <li class=" nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Orders</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Change Password</a>
+        <a class="nav-link" href="{{ route('adminOrders') }}">Orders</a>
     </li>
     {{-- <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.dashboard') }}">Add Bus</a>
@@ -30,9 +27,7 @@
 
 
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a>
-    </li>
+
     <li class="nav-item">
         <form action="{{ route('admin.dashboard') }}" method="GET">
             @csrf

@@ -16,37 +16,36 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $remember = $request->input('remember', false);
+        try {
+            $remember = $request->input('remember', false);
+            $validatedData = $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:8',
+                'mobile_no' => 'required|unique:users|digits:11',
+            ]);
 
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
-            'mobile_no' => 'required|unique:users|digits:11',
-        ]);
 
-
-        $data['name'] = $request->name;
-        $data['mobile_no'] = $request->mobile_no;
-        $data['email'] = $request->email;
-        $data['password'] = bcrypt($request->password);
-        $user = User::create($data);
-        if (!$user) {
-            Session::flash('msg', 'Something is wrong');
-            return redirect('buy');
+            $data['name'] = $validatedData['name'];
+            $data['mobile_no'] = $validatedData['mobile_no'];
+            $data['email'] = $validatedData['email'];
+            $data['password'] = bcrypt($validatedData['password']);
+            $user = User::create($data);
+            if ($remember) {
+                $minutes = 60;
+                $expire = time() + $minutes * 60;
+                setcookie('email', $request->input('email'), $expire);
+                setcookie('password', $request->input('password'), $expire);
+            } else {
+                setcookie('email', "");
+                setcookie('password', "");
+            }
+            Session::flash('msg', 'Registration successful!');
+            return view('loginview');
+        } catch (ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput()
+                ->with('error', 'Validation failed. Please correct the errors and try again.');
         }
-        if ($remember) {
-            $minutes = 60;
-            $expire = time() + $minutes * 60;
-            setcookie('email', $request->input('email'), $expire);
-            setcookie('password', $request->input('password'), $expire);
-        } else {
-            setcookie('email', "");
-            setcookie('password', "");
-        }
-
-        Session::flash('msg', 'Registration successful!');
-        return redirect('/showdata');
     }
 
     public function log_in(Request $request)

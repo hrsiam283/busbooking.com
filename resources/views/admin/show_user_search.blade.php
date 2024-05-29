@@ -8,13 +8,9 @@
     </li>
     <li class="nav-item">
         <a href="{{ route('admin_show_all_user') }}" class="btn btn-primary">Users</a>
-
     </li>
     <li class=" nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Orders</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Change Password</a>
+        <a class="nav-link" href="{{ route('adminOrders') }}">Orders</a>
     </li>
     {{-- <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.dashboard') }}">Add Bus</a>
@@ -32,14 +28,11 @@
 
 
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a>
-    </li>
-    <li class="nav-item">
-        <form action="{{ route('admin.dashboard') }}" method="GET">
-            @csrf
-            <button type="submit" class="btn btn-link nav-link">Logout</button>
-        </form>
+
+    <form action="{{ route('admin.dashboard') }}" method="GET">
+        @csrf
+        <button type="submit" class="btn btn-link nav-link">Logout</button>
+    </form>
 
     </li>
 </ul>

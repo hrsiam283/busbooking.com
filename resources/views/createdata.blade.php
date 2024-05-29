@@ -6,17 +6,11 @@
         <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Users</a>
+        <a class="nav-link" href="{{ route('admin_show_all_user') }}">Users</a>
     </li>
     <li class=" nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Orders</a>
+        <a class="nav-link" href="{{ route('adminOrders') }}">Orders</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Change Password</a>
-    </li>
-    {{-- <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Add Bus</a>
-    </li> --}}
     <li class="nav-item dropdown">
         <a class="btn btn-primary dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
@@ -24,15 +18,13 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="{{ url('showdata') }}">Buslist</a></li>
-            <li><a class="dropdown-item" href="{{ route('admin_seat_view') }}">Seat Info</a></li>
+            <li><a class="dropdown-item" href="{{ route('admin_seat_info_button') }}">Seat Info</a></li>
         </ul>
     </li>
 
 
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a>
-    </li>
+
     <li class="nav-item">
         <form action="{{ route('admin.dashboard') }}" method="GET">
             @csrf
